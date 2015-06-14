@@ -176,7 +176,7 @@
 				 */
 				
 				$gaSettings = Cms_Stats_Settings::getLazy();
-				if ($gaSettings->ga_enabled && !$page->disable_ga)
+				if ($gaSettings->ga_enable_tracking && !$page->disable_ga)
 					$this->add_tracking_code($gaSettings->get_ga_tracking_code());
 					
 				$result_onBeforeDisplay = Backend::$events->fireEvent('cms:onBeforeDisplay', $page, $params);

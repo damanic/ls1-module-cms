@@ -24,6 +24,7 @@
 			$this->validation->setFormId('settings_form');
 			
 			$this->define_column('ga_enabled', 'Enable Google Analytics integration');
+			$this->define_column('ga_enable_tracking', 'Enable Google Analytics tracking');
 			$this->define_column('ga_siteid', 'Profile ID')->validation()->fn('trim');
 			$this->define_column('ga_property_id', 'Web Property ID')->validation()->fn('trim');
 			
@@ -45,7 +46,8 @@
 		{
 			$extraFieldClass = $this->ga_enabled ? 'separatedField' : null;
 			$this->add_form_field('ga_enabled')->comment('Turning Google Analytics integration ON you allow the system to download reports from your Google Analytics account. If you disable this feature, the built-in statistics will be used.<br/><br/><strong>Important!</strong> In order to track E-Commerce transaction you need to enable E-Commerce reporting in the Google Analytics website profile.', 'below', true)->tab('Google Analytics')->renderAs(frm_onoffswitcher)->cssClassName($extraFieldClass);
-			
+			$this->add_form_field('ga_enable_tracking')->comment('Turning Google Analytics tracking ON will insert tracking code into your pages', 'below', true)->tab('Google Analytics')->renderAs(frm_onoffswitcher)->cssClassName($extraFieldClass);
+
 			$this->add_form_partial('ga_hint')->tab('Google Analytics');
 
 			$extraFieldClass = $this->ga_enabled ? null : 'hidden';
