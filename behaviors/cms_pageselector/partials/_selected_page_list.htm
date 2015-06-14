@@ -1,0 +1,7 @@
+<?
+	if (isset($object)) {
+		$db_name = $this->formGetFieldDbName($reference, $object);
+		
+		echo h(Cms_PageReference::pages_as_string($object, $db_name));
+	}
+?>

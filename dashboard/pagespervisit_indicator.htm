@@ -1,0 +1,26 @@
+<? if (!Cms_Analytics::isGoogleAnalyticsEnabled()): ?>
+	<h3>Pageviews/Visitor</h3>
+	<?
+		$curRatio = $statistics->unique_visitors_current > 0 ? $statistics->pageviews_current/$statistics->unique_visitors_current : 0;
+		$prevRatio = $statistics->unique_visitors_previous > 0 ? $statistics->pageviews_previous/$statistics->unique_visitors_previous : 0;
+	?>
+
+	<p><?= round($curRatio, 2) ?>
+		<?= Backend_Reports::scoreboardDiff($curRatio, $prevRatio) ?>
+	</p>
+	<p class="description">
+		previous: <?= round($prevRatio, 2) ?>
+	</p>
+<? else: ?>
+	<h3>Pages/Visit</h3>
+	<? if ( property_exists($statistics, 'pages_per_visit_current')): ?>
+		<p><?= round($statistics->pages_per_visit_current, 2) ?>
+			<?= Backend_Reports::scoreboardDiff($statistics->pages_per_visit_current, $statistics->pages_per_visit_previous, false, true) ?>
+		</p>
+		<p class="description">
+			<?= round($statistics->pages_per_visit_previous, 2) ?>
+		</p>
+	<? else: ?>
+		<p>?</p>
+	<? endif ?>
+<? endif ?>

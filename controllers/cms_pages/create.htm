@@ -1,0 +1,75 @@
+<? Phpr_View::beginBlock("head") ?>
+	<script type="text/javascript">
+		var editor_config = {};
+		<? if (!isset($fatalError)): ?>
+			page_editors_config = <?= Backend_CodeEditorConfiguration::create()->render_settings(); ?>
+		<? endif ?> 
+	</script>
+	
+	<script type="text/javascript" src="modules/backend/resources/javascript/unload_manager.js"></script>
+	<script type="text/javascript" src="modules/cms/resources/javascript/edit.js"></script>
+	<script type="text/javascript" src="modules/cms/resources/javascript/pages.js?<?= module_build('cms') ?>"></script>
+	<script type="text/javascript" src="modules/cms/resources/javascript/cms_object.js?<?= module_build('cms') ?>"></script>
+	
+	<script type="text/javascript" src="modules/backend/resources/javascript/jquery.event.drag-2.0.min.js"></script>
+	<script type="text/javascript" src="modules/backend/resources/javascript/jquery.sizes.min.js"></script>
+	<script type="text/javascript" src="modules/backend/resources/javascript/jquery.splitter.js"></script>
+	<script type="text/javascript" src="modules/backend/resources/javascript/jquery.ui.fullheightlayout.js"></script>
+	<script type="text/javascript" src="modules/backend/resources/javascript/jquery.ui.anchorlayout.js"></script>
+	
+	<script type="text/javascript" src="phproad/thirdpart/syntaxhighlighter/scripts/shCore.js"></script>
+	<script type="text/javascript" src="phproad/thirdpart/syntaxhighlighter/scripts/shBrushPhp.js"></script>
+	<link type="text/css" rel="stylesheet" href="phproad/thirdpart/syntaxhighlighter/styles/shCore.css"/>
+	<link type="text/css" rel="stylesheet" href="phproad/thirdpart/syntaxhighlighter/styles/shThemeDefault.css"/>
+	
+	<script type="text/javascript">
+		SyntaxHighlighter.config.clipboardSwf = ls_root_url('/phproad/thirdpart/syntaxhighlighter/scripts/clipboard.swf');
+		UnloadManager.unload_message = 'The page has been changed. Unsaved data will be lost.';
+		
+		cms_object_page = true;
+		cms_object_name_field = 'Cms_Page_url';
+		cms_object_file_name_field = 'Cms_Page_directory_name';
+	</script>
+<? Phpr_View::endBlock() ?>
+
+<? Phpr_View::beginBlock("view") ?>
+	<ul class="breadcrumbs">
+		<li><a href="<?= url('/cms/pages') ?>">Pages</a></li>
+		<li><?= $this->app_page_title ?></li>
+	</ul>
+	
+	<?= flash() ?>
+
+	<? if (!isset($fatalError)): 
+		$panel_width = Phpr::$request->cookie('splitter-widget-splitter-table', null);
+		$left_panel_width = $panel_width ? $panel_width.'px' : null;
+	?>
+		<table class="layoutTable splitter" id="splitter-table">
+			<tr>
+				<td class="splitter-panel left-panel" style="width: <?= $left_panel_width ?>">
+					<?= Phpr_Form::openTag(array('id'=>'form_element')) ?>
+						<div class="toolbar">
+							<?= backend_ajax_button('Create', 'create_onSave', array(), "onAfterUpdate: setupInfoSize, onAfterError: setupInfoSize, prepareFunction: function(){phprTriggerSave();}, onBeforeScriptEval: function(){UnloadManager.reset_changes()}") ?>
+							<?= backend_ajax_button('Create and Close', 'create_onSave', array('class'=>'default'), "onAfterUpdate: setupInfoSize, onAfterError: setupInfoSize, prepareFunction: function(){phprTriggerSave();}, extraFields: {create_close: 1}, onBeforeScriptEval: function(){UnloadManager.reset_changes()}") ?>
+							<?= backend_ajax_button('Cancel', 'create_onCancel', array(), "onBeforeScriptEval: function(){UnloadManager.reset_changes()}") ?>
+							<div class="clear"></div>
+						</div>
+					
+						<? $this->formRender() ?>
+						<input type="hidden" id="max_block_num" value="<?= Cms_Page::max_block_num ?>"/>
+
+						<input type="hidden" value="1" id="new_page_flag"/>
+						<input type="hidden" value="1" id="new_object_flag"/>
+						<div class="clear"></div>
+					</form>
+				</td>
+				<td class="splitter-separator"></td>
+				<td class="secondary_tabs splitter-panel right-panel" id="infoColumn">
+					<? $this->renderPartial('action_information') ?>
+				</td>
+			</tr>
+		</table>
+	<? else: ?>
+		<p><a href="<?= url('/cms/pages') ?>">Return to the page list</a></p>
+	<? endif ?>
+<? Phpr_View::endBlock() ?>

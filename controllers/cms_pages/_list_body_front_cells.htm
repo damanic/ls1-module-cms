@@ -1,0 +1,33 @@
+<td class="iconCell">
+	<? if ($model->security_mode_id == Cms_SecurityMode::customers): ?>
+		<img src="modules/backend/resources/images/lock.gif" alt="This page is protected" title="This page is protected" width="16" height="16"/>
+	<? endif ?>
+	<div class="row_controls hidden">
+		<div class="content">
+			<ul onclick="">
+				<? if ($can_edit_pages): ?>
+					<li class="default">
+						<a href="<?= $url.'?'.uniqid() ?>">Edit</a>
+						<div class="handle"></div>
+					</li>
+				<? endif ?>
+
+				<? if ($model->has_contentblocks && ($can_edit_content || $can_manage_static_pages) && !$model->directory_is_missing()): ?>
+					<li class="<?= !$can_edit_pages ? 'default' : null ?>">
+						<a href="<?= url('/cms/pages/content/'.$model->id.'?'.uniqid()) ?>">Edit content</a>
+						<? if (!$can_edit_pages): ?>
+							<div class="handle"></div>
+						<? endif ?>
+					</li>
+				<? endif ?>
+
+				<? $address = Phpr::$request->getRootUrl().root_url(Core_String::normalizeUri($model->url)) ?>
+				<li>
+					<a href="<?= $address ?>" target="_blank">Preview</a>
+				</li>
+				
+				<? Backend::$events->fireEvent('cms:onExtendPagesContextMenu', $this, $model); ?>
+			</ul>
+		</div>
+	</div>
+</td>

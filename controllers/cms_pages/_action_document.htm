@@ -1,0 +1,36 @@
+<div id="example_form">
+	<h2>Example</h2>
+	<div class="content">
+		<div class="form700">
+			<?= Phpr_Form::openTag() ?>
+				<? if (!isset($fatalError)): ?>
+					<div class="highlighter">
+						<div class="scrollableList height200 code" id="code_scroller"><div id="code_example"><pre class="brush: php"><?= h(trim($contents)) ?></pre></div></div>
+					</div>
+
+					<script type="text/javascript">
+						$('example_form').addEvent('popupLoaded', function(){
+							SyntaxHighlighter.highlight();
+							var height = $('code_example').getSize().y;
+
+							var height = $('code_example').getSize().y;
+							if (!(height > 400))
+							{
+								$('code_scroller').setStyle('height', height + 'px');
+								$('code_scroller').removeClass('height200');
+							} else
+								$('code_scroller').addClass('height400');
+ 						});
+					</script>
+				
+					<?= backend_button('Close', array('onclick'=>'return cancelPopup()')) ?>
+					<div class="clear"></div>
+				<? else: ?>
+					<?= flash() ?>
+					<?= backend_button('Close', array('onclick'=>'return cancelPopup()')) ?>
+					<div class="clear"></div>
+				<? endif ?>
+			</form>
+		</div>
+	</div>
+</div>

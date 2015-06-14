@@ -1,0 +1,34 @@
+<? Phpr_View::beginBlock("head") ?>
+	<script type="text/javascript">
+		var editor_config = {};
+		<? if (!isset($fatalError)): ?>
+			editor_config = <?= Backend_CodeEditorConfiguration::create()->render_settings(); ?>
+		<? endif ?> 
+	</script>
+	
+	<script type="text/javascript" src="modules/cms/resources/javascript/theme.js"></script>
+<? Phpr_View::endBlock() ?>
+
+<? Phpr_View::beginBlock("view") ?>
+	<ul class="breadcrumbs">
+		<li><a href="<?= url('/cms/themes') ?>">Themes</a></li>
+		<li><?= $this->app_page_title ?></li>
+	</ul>
+	
+	<?= flash() ?>
+
+	<? if (!isset($fatalError)): ?>
+		<div class="form600">
+			<?= Phpr_Form::openTag() ?>
+				<? $this->formRender() ?>
+
+				<?= backend_ajax_button('Create', 'create_onSave', array('class'=>'default'), "prepareFunction: function(){phprTriggerSave();}") ?>
+				<?= backend_ajax_button('Cancel', 'create_onCancel') ?>
+			
+				<div class="clear"></div>
+			</form>
+		</div>
+	<? else: ?>
+		<p><a href="<?= url('/cms/themes') ?>">Return to the theme list</a></p>
+	<? endif ?>
+<? Phpr_View::endBlock() ?>

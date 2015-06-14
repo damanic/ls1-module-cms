@@ -1,0 +1,29 @@
+<div class="info-header">
+	<p>Content block</p>
+	<h3><?= $form_model->name ? h($form_model->name) : 'untitled' ?></h3>
+</div>
+
+<div class="info-area">
+	<table class="name-value-report title-width-80">
+		<tr>
+			<th>Code</th>
+			<td><?= $form_model->code ? h($form_model->code) : '-' ?></td>
+		</tr>
+		<tr>
+			<th>Type</th>
+			<td><?= $form_model->block_type == 'text' ? 'text' : 'HTML' ?></td>
+		</tr>
+		<tr>
+			<th>Last update</th>
+			<td>
+				<? if ($form_model->updated_at): ?>
+					<?= $form_model->displayField('updated_at') ?> by <?= h($form_model->updated_user_name) ?>
+				<? elseif ($form_model->created_user_name): ?>
+					<?= $form_model->displayField('created_at') ?> by <?= h($form_model->created_user_name) ?></td>
+				<? else: ?>
+					-
+				<? endif ?>
+			</td>
+		</tr>
+	</table>
+</div>

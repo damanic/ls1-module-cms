@@ -1,0 +1,1 @@
+alter table pages add ajax_handlers_code text;

@@ -1,0 +1,26 @@
+<? $extra_tabs = Backend::$events->fireEvent('cms:onListPageEditorSidebarTabs'); ?>
+
+<div class="tabs">
+	<ul class="tabs_tabs" id="action_info_tabs">
+		<li class="round active"><a href="#tab_0">Info</a></li>
+		<li class="round"><a href="#tab_1">Files</a></li>
+		<li class="round"><a href="#tab_2">Action Info</a></li>
+		<li class="round"><a href="#tab_4">Handbook</a></li>
+		<? 
+			$index = 4;
+			foreach ($extra_tabs as $tabs): ?>
+		<? 
+			if (is_array($tabs)): 
+				foreach ($tabs as $tab=>$partial):
+					$index++;
+		?>
+			<li class="round"><a href="#tab_<?= $index ?>"><?= $tab ?></a></li>
+		<? 
+				endforeach;
+			endif 
+		?>
+		<? endforeach ?>
+	</ul>
+	<div class="clear tab_separator"></div>
+	<div id="action_doc"><? $this->renderPartial('action_doc', array('action'=>$form_model->action_reference)) ?></div>
+</div>

@@ -1,0 +1,54 @@
+<div id="new_filter_popup">
+	<h2>Add IP Filter</h2>
+	<div class="content">
+		<div class="form300">
+			<?= Phpr_Form::openTag() ?>
+				<div class="form">
+					<!--[if IE]><fieldset class="ie_fix"><![endif]-->
+					<div class="formFlash"></div>
+					<!--[if IE]></fieldset><![endif]-->
+
+					<ul class="formElements">
+						<li class="field text full">
+							<label for="filter_ip">
+								IP Address <span class="required">*</span>
+								<span class="comment">You may use wildcard characters (*) in IP address: 192.168.0.*</span>
+							</label>
+
+							<div class="fieldContainer">
+								<input type="text" name="filter_ip" id="filter_ip" class="varchar" maxlength="15"/>
+							</div>
+						</li>
+
+						<li class="field text full">
+							<label for="filter_name">Filter Name <span class="required">*</span></label>
+
+							<div class="fieldContainer">
+								<input type="text" name="filter_name" id="filter_name" class="varchar"/>
+							</div>
+						</li>
+					</ul>
+					<div class="clear"/>
+				</div>
+				
+				<script type="text/javascript">
+					$('new_filter_popup').addEvent('popupLoaded', function(){
+						$('filter_ip').focus();
+					});
+				</script>
+
+				<?= backend_ajax_button('Add', 'stats_onAddFilter', array(), "
+					loadIndicator: {injectInElement: true},
+					update: 'ip_filter_list',
+					extraFields: $('settings_form'),
+					onSuccess: function(){
+						cancelPopup();
+					}
+				") ?>
+
+				<?= backend_button('Cancel', array('onclick'=>'return cancelPopup()')) ?>
+				<div class="clear"></div>
+			</form>
+		</div>
+	</div>
+</div>

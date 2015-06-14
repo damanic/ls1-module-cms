@@ -1,0 +1,34 @@
+<?
+	$filters = $form_model->getIpFilters();
+?>
+
+<table class="simpleList">
+	<thead>
+		<tr>
+			<th>IP Address</th>
+			<th class="<?= !count($filters) ? 'last' : null ?>">Filter Name</th>
+			<? if (count($filters)): ?>
+				<th class="iconCell last">&nbsp;</th>
+			<? endif ?>
+		</tr>
+	</thead>
+
+	<tbody>
+		<? if (!count($filters)): ?>
+			<tr class="noData">
+				<td colspan="3" class="last">No filters defined.</td>
+			</tr>
+		<? else: ?>
+			<? foreach ($filters as $filter): 
+			?>
+				<tr class="<?= Backend_Html::zebra('ip_filter') ?>">
+					<td><?= h($filter->ip) ?></td>
+					<td><?= h($filter->name) ?></td>
+					<td class="iconCell last"><a onclick="return $(this).getForm().sendPhpr('stats_onDeleteIpFilter', {confirm: 'Do you really want to delete this filter?', extraFields: {ip: '<?= h($filter->ip) ?>'}, update: 'ip_filter_list', loadIndicator: {show: false}});" title="Delete attribute" class="deleteDocument" href="#">Delete</a></td>
+				</tr>
+			<? endforeach ?>
+		<? endif ?>
+	</tbody>
+</table>
+
+<input type="hidden" name="Cms_Stats_Settings[ip_filters]" value="<?= h($form_model->ip_filters) ?>"/>

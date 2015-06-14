@@ -1,0 +1,14 @@
+<?
+	if (!isset($update))
+	{
+		$references = Cms_PageReference::list_page_references($model, $reference);
+		$field_name = get_class($model).'[cms_page_selector]['.$reference.']';
+		$references = array_keys($references);
+		$original_field_name = get_class($model).'['.$reference.']';
+		$reference_value = $model->$reference;
+	} else 
+		$original_field_name = $model_class.'['.$reference_name.']';
+	
+?>
+<input name="<?= $field_name ?>" value="<?= base64_encode(serialize($references)) ?>" type="hidden" class="cms_page_selector_data"/>
+<input name="<?= $original_field_name ?>" value="<?= $reference_value ?>" type="hidden"/>

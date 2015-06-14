@@ -1,0 +1,14 @@
+<? if (Cms_Theme::is_theming_enabled()): ?>
+	<div class="minorPadding">
+		<div class="scoreboardReport">
+			<ul>
+				<? $this->renderPartial(PATH_APP.'/modules/cms/controllers/partials/_theme_info.htm', array('apply_callback'=>'refresh_layout_list')) ?>
+			</ul>
+			<div class="clear"></div>
+		</div>
+	</div>
+<? endif ?>
+	
+<?= flash() ?>
+
+<?= $this->listRender(array('list_control_panel'=>'control_panel')) ?>

@@ -1,0 +1,25 @@
+li.google_captcha
+{
+	padding-left: 1px;
+}
+
+li.google_captcha div
+{
+	background: white;
+	border: 1px solid #ddd;
+}
+
+div.toolbar .page_create_from_file
+{
+	background: transparent url('../images/page_white_star.png') no-repeat 5px 4px;
+}
+
+div.toolbar .page_refresh
+{
+	background: transparent url('../images/arrow_refresh.png') no-repeat 5px 4px;
+}
+
+div.toolbar .set_default_theme
+{
+	background: transparent url('../images/weather_sun.png') no-repeat 5px 4px;
+}

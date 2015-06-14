@@ -1,0 +1,411 @@
+p.info
+{
+	color: #666666;
+}
+
+body.resource_manager #content
+{
+	padding: 0;
+}
+
+table.file_browser
+{
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table.file_browser .controlPanel
+{
+	white-space: nowrap;
+}
+
+table.file_browser .hint
+{
+	margin-top: -5px;
+	margin-bottom: 10px;
+}
+
+table.file_browser th,
+table.file_browser td
+{
+	vertical-align: top;
+}
+
+table.file_browser th
+{
+	padding: 10px;
+	border-right: 2px solid #ccc;
+	text-align: left;
+	width: 290px;
+	background: #fafafa;
+}
+
+table.file_browser td
+{
+	padding: 10px;
+}
+
+table.file_browser div.button
+{
+	margin-top: 0;
+}
+
+.folderList ul li
+{
+	padding-left: 5px;
+	margin-bottom: 1px;
+	-moz-border-radius:4px;
+	-webkit-border-radius: 4px;
+	font: normal 11px/100% Arial,Verdana,Helvetica,sans-serif;
+	cursor: pointer;
+}
+
+.folderList ul li.content-fill:hover,
+.folderList ul li.content-fill.even:hover,
+.folderList ul li.theme-selector div.item-content:hover
+{
+	background-color: #ddd;
+}
+
+.folderList ul li.content-fill.current,
+.folderList ul li.current .item-content
+{
+	background-color: #507BB9!important;
+}
+
+.folderList ul li.current a 
+{
+	color: white!important;
+}
+
+.folderList ul li.even
+{
+	background-color: #eee;
+}
+                                
+.folderList ul li.theme-selector
+{
+	position: relative;
+	padding: 0;
+}
+
+.folderList ul li.theme-selector div.item-content
+{
+	padding-left: 5px;
+	margin-right: 25px;
+	-webkit-border-top-left-radius: 4px;
+	-moz-border-radius-topleft: 4px;
+	border-top-left-radius: 4px;
+	-webkit-border-bottom-left-radius: 4px;
+	-moz-border-radius-bottomleft: 4px;
+	border-bottom-left-radius: 4px;
+}
+
+.folderList ul li.theme-selector div.item 
+{
+	padding-right: 20px;
+}
+
+.folderList ul li.theme-selector .selector-tool-button 
+{
+	float: none;
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 100%;
+	margin: 0;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.folderList ul li a
+{
+	display: block;
+	padding: 3px;
+	font-weight: normal;
+	text-decoration: none;
+	color: #444;
+}
+
+.folderList ul li a .root_description
+{
+	display: block;
+	margin-top: 6px;
+	filter:alpha(opacity=75);
+	-moz-opacity:0.75;
+	-khtml-opacity:0.75;
+	opacity: 0.75;
+}
+
+.folderList ul li div.item
+{
+	padding: 5px 0;
+}
+
+.folderList ul li span.folder_item
+{
+	background: transparent url('../images/folder.png') no-repeat 18px top;
+	padding-left: 35px;
+	display: block;
+	position: relative;
+}
+
+.folderList ul li.root span.folder_item
+{
+	background-image: url('../images/folder_star.png');
+}
+
+.folderList ul li.root a
+{
+	font-weight: bold;
+}
+
+.folderList ul li.root a span 
+{
+	font-weight: normal;
+}
+
+.folderList ul li.root.theme span.folder_item
+{
+	background-image: url('../images/folder_palette.png');
+}
+
+.folderList .folder_collapse_control 
+{
+	background: transparent url('../images/arrows.png') no-repeat left -25px;
+	width: 9px;
+	height: 9px;
+	top: 1px;
+	left: 3px;
+	position: absolute;
+	display: block;
+	text-indent: -100000em;
+}
+
+.folderList .no-subfolders .folder_collapse_control
+{
+	cursor: default;
+	background-position: left 0px;
+}
+
+.folderList .folder_collapse_control.expanded 
+{
+	background-position: left -12px;
+}
+
+.folderList .current .folder_collapse_control 
+{
+	background-position: left -38px;
+}
+
+.folderList .current .no-subfolders .folder_collapse_control 
+{
+	background-position: left -64px;
+	cursor: default;
+}
+
+.folderList .current .folder_collapse_control.expanded 
+{
+	background-position: left -51px;
+}
+
+/*.folderList ul li.current a
+{
+	background-color: #987c40;
+	color: #fff;
+}
+*/
+
+table.file_browser .formFlash p
+{
+	margin-bottom: 1em;
+}
+
+table.file_browser table.simpleList th
+{
+	width: auto;
+}
+
+table.file_browser table.simpleList tbody tr:last-child td 
+{
+	border-bottom: 1px solid #EAEAEA;
+}
+
+th.fileControls, td.fileControls
+{
+	width: 40px;
+}
+
+td.fileControls a
+{
+	margin-right: 5px;
+}
+
+th.fileControls, td.fileControls a.last
+{
+	margin-right: 0;
+}
+
+a.renameDocument
+{
+	text-indent: -10000em;
+	width: 16px;
+	height: 16px;
+	float: right;
+	background: transparent url('../images/rename.gif') no-repeat left top;
+	outline: none;
+}
+
+/*
+ * File list
+ */ 
+
+ul.fileList li.file
+{
+	display: inline-block;
+	padding-bottom: 10px;
+	padding-right: 15px;
+	vertical-align: top;
+	width: 100px;
+}
+
+div.thumbnails ul.fileList li 
+{
+	width: 158px;
+}
+
+ul.fileList li .container 
+{
+	background: transparent url(../images/icon_bg.png) no-repeat scroll left top;
+	padding-right: 5px;
+}
+
+div.thumbnails ul.fileList li .container 
+{
+	background: transparent url(../images/thumb_bg.png) no-repeat scroll left top;
+}
+
+ul.fileList li .checkbox_panel
+{
+	float: left;
+	width: 20px;
+	height: 20px;
+	background: #fff;
+	border-left: 1px solid #cccccc;
+	border-top: 1px solid #cccccc;
+	border-bottom: 1px solid #cccccc;
+	position: relative;
+	z-index: 90;
+	
+	-moz-border-radius-bottomleft: 3px;
+	-moz-border-radius-topleft: 3px;
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+}
+
+ul.fileList li .checkbox_panel input
+{
+	position: absolute;
+	left: 3px;
+	top: 2px;
+	padding: 0;
+	margin: 0;
+}
+
+ul.fileList li .checkbox_panel div.checkbox
+{
+	position: absolute;
+	left: 3px;
+	top: 3px;
+	width: 12px;
+	height: 12px;
+	padding: 0;
+	margin: 0;
+}
+
+ul.fileList li .image_container
+{
+	margin-left: 20px;
+	background-color: #fff;
+	border: 1px solid #cccccc;
+	padding: 5px;
+	
+	-moz-border-radius-bottomright: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	-moz-border-radius-topright: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+}
+
+ul.fileList li .container h4
+{
+	font-size: 1.1em;
+	font-weight: normal;
+	padding-bottom: 0em;
+	background: transparent;
+	margin-bottom: 0;
+	margin-left: 16px;
+	text-align: center;
+	margin-top: 0.3em;
+	line-height: 130%;
+	color: #666666;
+}
+
+div.thumbnails ul.fileList li .container h4
+{
+	font-weight: bold;
+	margin-top: 0.5em;
+}
+
+ul.fileList li .thumb a
+{
+	display: block;
+	text-decoration: none!important;
+}
+
+ul.fileList li img 
+{
+	border: 1px solid #EEEEEE;
+	display: block;
+	width: 60px;
+	height: 60px;
+}
+
+div.thumbnails ul.fileList li img 
+{
+	width: 120px;
+	height: 120px;
+}
+
+ul.fileList span.file_icon 
+{
+	background-color: #FFFFFF;
+	background-position: center center;
+	background-repeat: no-repeat;
+	border: 1px solid #EEEEEE;
+	display: block;
+	height: 60px;
+	width: 60px;
+}
+
+div.thumbnails ul.fileList span.file_icon 
+{
+	height: 120px;
+	width: 120px;
+}
+
+ul.fileList .row_controls a
+{
+	font-size: 11px;
+	text-decoration: none;
+	float: left;
+}
+
+ul.fileList .row_controls li
+{
+	padding-bottom: 2px;
+	width: auto!important;
+	padding-top: 3px;
+}

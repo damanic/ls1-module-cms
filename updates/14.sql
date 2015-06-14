@@ -1,0 +1,1 @@
+create index action_reference on pages(action_reference);

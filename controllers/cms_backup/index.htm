@@ -1,0 +1,28 @@
+<? Phpr_View::beginBlock("head") ?>
+	<link rel="stylesheet" href="phproad/modules/db/behaviors/db_formbehavior/resources/css/forms.css" type="text/css"/>
+<? Phpr_View::endBlock() ?>
+
+<? Phpr_View::beginBlock("view") ?>
+	<?= flash() ?>
+
+	<ul class="imageItemList offsetTop">
+		<li <?= click_link(url('cms/backup/export')) ?>>
+			<div>
+				<img src="modules/cms/resources/images/icon_export.gif" alt="Export"/>
+				<h3><a href="<?= url('cms/backup/export') ?>">Export pages, partials and templates</a></h3>
+				<p>Create a file containing pages, partials, templates and file resources (images, CSS files etc) from this system. This file can be used to share your website look and feel with other users or to copy your website front-end to another server.</p>
+				<div class="clear"></div>
+			</div>
+		</li>
+		
+		<li <?= click_link(url('cms/backup/import')) ?>>
+			<div>
+				<img src="modules/cms/resources/images/icon_import.gif" alt="Import"/>
+				<h3><a href="<?= url('cms/backup/import') ?>">Import pages, partials and templates</a></h3>
+				<p>Restore pages, partials, templates and file resources from a file previously made with Export operation. This will update objects already existing in your system and add new objects.</p>
+				<div class="clear"></div>
+			</div>
+		</li>
+	</ul>
+	<div class="clear"></div>
+<? Phpr_View::endBlock() ?>

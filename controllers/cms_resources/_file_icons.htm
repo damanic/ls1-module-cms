@@ -1,0 +1,53 @@
+<? 
+	$curFolder = $this->getAppRelativeFolder($this->getCurrentFolder());
+	$files = $this->getFolderContents();
+	$fileCnt = count($files);
+	
+	$selected_files = Phpr::$session->flash['system'] ? Phpr::$session->flash['system'] : array();
+	
+	$thumb_size = isset($thumb_size) ? $thumb_size : 60;
+	$trim_len = isset($trim_len) ? $trim_len : 15;
+	$wordwrap_len = isset($wordwrap_len) ? $wordwrap_len : 9;
+?>
+
+<p class="info">Directory: <strong><?= h($curFolder) ?></strong>. File number: <strong><?= $fileCnt ?></strong>. 
+	<? if ($fileCnt): ?>
+	 Select: <a href="#" onclick="$('icon_file_list').getElements('input.file_list_cb').each(function(element){element.cb_check()}); return false;">all</a>, <a href="#" onclick="$('icon_file_list').getElements('input.file_list_cb').each(function(element){element.cb_uncheck()}); return false;">none</a>.
+	<? endif ?></p>
+
+<? if (!$fileCnt): ?>
+	<p class="noData">There are no files in this directory.</p>
+<? else: ?>
+	<ul class="fileList" id="icon_file_list">
+		<? foreach ($files as $file):
+			$thumbnail = $this->getFileThumb($curFolder.'/'.$file->name, $thumb_size, $thumb_size);
+			$thumb_exists = $thumbnail !== null && substr($thumbnail, -8) != '_err.jpg';
+			
+			$file_url = $this->isEditable($file->name) ?
+				url('cms/resources/edit/'.base64_encode($curFolder.'/'.$file->name)) : 
+				root_url($curFolder.'/'.$file->name);
+		?>
+			<li class="file inline_block" title="<?= h($file->name) ?>">
+				<div class="container right_row_controls">
+					<div class="checkbox_panel">
+						<input name="file_names[]" class="file_list_cb" type="checkbox" value="<?= $curFolder.'/'.$file->name ?>" <?= Phpr_Form::checkboxState(in_array($curFolder.'/'.$file->name, $selected_files)) ?>/>
+					</div>
+
+					<div class="image_container">
+						<div class="thumb <?= $this->getFileExt($file->name) ?>">
+							<a href="<?= $file_url ?>">
+								<? if ($thumb_exists): ?> 
+									<img src="<?= $thumbnail ?>" alt="<?= h($file->name) ?>"/>
+								<? else: ?>
+									<span class="file_icon">&nbsp;</span>
+								<? endif ?>
+							</a>
+						</div>
+
+					</div>
+					<h4><?= wordwrap(Phpr_Html::strTrim($file->name, $trim_len), $wordwrap_len, "<br/>", true); ?></h4>
+				</div>
+			</li>
+		<? endforeach ?>
+	</ul>
+<? endif ?>

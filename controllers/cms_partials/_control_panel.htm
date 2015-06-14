@@ -1,0 +1,9 @@
+<div class="toolbar">
+	<?= backend_ctr_button('Add partial', 'new_document', url('/cms/partials/create')) ?>
+	<div class="separator">&nbsp;</div>
+	<?= backend_ctr_button('Delete selected', 'delete_document', array('href'=>'#', 'onclick'=>"return delete_selected()")) ?>
+	
+	<? Backend::$events->fireEvent('cms:onExtendPartialsToolbar', $this) ?>
+
+	<div class="clear"></div>
+</div>

@@ -1,0 +1,12 @@
+div.details div.code
+{
+	font-size: 1.7em;
+}
+
+div.details div.code .syntaxhighlighter, 
+div.details div.code .syntaxhighlighter div, 
+div.details div.code .syntaxhighlighter code,
+div.details div.code .syntaxhighlighter span 
+{
+	line-height: 1.3em!important;
+}

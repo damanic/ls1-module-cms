@@ -1,0 +1,8 @@
+<? Phpr_View::beginBlock("head") ?>
+	<link rel="stylesheet" href="modules/cms/resources/css/cms.css?<?= module_build('cms') ?>" type="text/css"/>
+	<script type="text/javascript" src="modules/cms/resources/javascript/pages_list.js"></script>
+<? Phpr_View::endBlock() ?>
+
+<? Phpr_View::beginBlock("view") ?>
+	<div id="page_list_content"><? $this->renderPartial('page_list_content') ?></div>
+<? Phpr_View::endBlock() ?>

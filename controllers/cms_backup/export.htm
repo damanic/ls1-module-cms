@@ -1,0 +1,78 @@
+<? Phpr_View::beginBlock("head") ?>
+	<link rel="stylesheet" href="phproad/modules/db/behaviors/db_formbehavior/resources/css/forms.css" type="text/css"/>
+	
+	<script type="text/javascript">
+		window.addEvent('click', function(){
+			$('export_pages').addEvent('click', function(){
+				if ($('export_pages').checked)
+					$('export_templates').cb_check();
+			});
+		})
+	</script>
+<? Phpr_View::endBlock() ?>
+
+<? Phpr_View::beginBlock("view") ?>
+	<ul class="breadcrumbs">
+		<li><a href="<?= url('cms/backup') ?>">Import or Export CMS Objects</a></li>
+		<li><?= $this->app_page_title ?></li>
+	</ul>
+	
+	<?= flash() ?>
+
+	<? if (!isset($fatalError)): ?>
+		<div class="form300">
+			<p>Please select type(s) of CMS objects you want to export.</p>
+			
+			<?= Phpr_Form::openTag() ?>
+				<div class="form">
+					<!--[if IE]><fieldset class="ie_fix"><![endif]-->
+					<div class="formFlash" id="formFlash"></div>
+					<!--[if IE]></fieldset><![endif]-->
+
+					<ul class="formElements">
+						<li class="field checkbox">
+							<label for="export_pages">Pages</label>
+							<div class="fieldContainer">
+								<input type="hidden" class="checkbox" value="" name="objects[pages]"/>
+								<input id="export_pages" type="checkbox" class="checkbox" value="1" name="objects[pages]"/>
+							</div>
+							<div class="clear"/>
+						</li>
+						<li class="field checkbox">
+							<label for="export_templates">Templates</label>
+							<div class="fieldContainer">
+								<input type="hidden" class="checkbox" value="" name="objects[templates]"/>
+								<input id="export_templates" type="checkbox" class="checkbox" value="1" name="objects[templates]"/>
+							</div>
+							<div class="clear"/>
+						</li>
+						<li class="field checkbox">
+							<label for="export_partials">Partials</label>
+							<div class="fieldContainer">
+								<input type="hidden" class="checkbox" value="" name="objects[partials]"/>
+								<input id="export_partials" type="checkbox" class="checkbox" value="1" name="objects[partials]"/>
+							</div>
+							<div class="clear"/>
+						</li>
+						<li class="field checkbox">
+							<label for="export_files">File Resources</label>
+							<div class="fieldContainer">
+								<input type="hidden" class="checkbox" value="" name="objects[resources]"/>
+								<input id="export_files" type="checkbox" class="checkbox" value="1" name="objects[resources]"/>
+							</div>
+							<div class="clear"/>
+						</li>
+					</ul>
+					<div class="clear"></div>
+				</div>
+
+				<?= backend_ajax_button('Export', 'export_onExport', array(), 'loadIndicator: {hideOnSuccess: true}, onSuccess: function(){$(\'formFlash\').set(\'text\', \'\')}') ?>
+				<?= backend_button('Close', url('cms/backup')) ?>
+			
+				<div class="clear"></div>
+			</form>
+		</div>
+	<? else: ?>
+		<p><a href="<?= url('cms/backup') ?>">Return to the Export or Import page</a></p>
+	<? endif ?>
+<? Phpr_View::endBlock() ?>

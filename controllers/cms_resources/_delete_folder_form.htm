@@ -1,0 +1,31 @@
+<div>
+	<h2>Delete folder</h2>
+	<div class="content">
+		<div class="form300">
+			<?= Phpr_Form::openTag() ?>
+
+				<? if (!isset($fatalError)): ?>
+					<div class="form">
+						<!--[if IE]><fieldset class="ie_fix"><![endif]-->
+							<div class="formFlash"></div>
+						<!--[if IE]></fieldset><![endif]-->
+					</div>
+					
+					<p>Do you really want to delete directory <strong><?= h($dir) ?>
+</strong>?</p>
+
+					<?= backend_ajax_button('Delete', 'index_onDeleteFolder', array(), "
+						loadIndicator: {injectInElement: true}, onSuccess: function(){ cancelPopup();
+							 $('FormElement').sendPhpr('index_onNavigate', {loadIndicator: {show:false}})}") ?>
+					<?= backend_button('Cancel', array('onclick'=>'return cancelPopup()')) ?>
+					<input type="hidden" name="dir" value="<?= h($dir) ?>"/>
+				<? else: ?>
+					<div class="formFlash"><?= flash() ?></div>
+					<?= backend_button('Cancel', array('onclick'=>'return cancelPopup()')) ?>
+				<? endif ?>
+			
+				<div class="clear"></div>
+			</form>
+		</div>
+	</div>
+</div>

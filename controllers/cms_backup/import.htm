@@ -1,0 +1,72 @@
+<? Phpr_View::beginBlock("head") ?>
+	<link rel="stylesheet" href="phproad/modules/db/behaviors/db_formbehavior/resources/css/forms.css" type="text/css"/>
+<? Phpr_View::endBlock() ?>
+
+<? Phpr_View::beginBlock("view") ?>
+	<ul class="breadcrumbs">
+		<li><a href="<?= url('cms/backup') ?>">Import or Export CMS Objects</a></li>
+		<li><?= $this->app_page_title ?></li>
+	</ul>
+	
+	<?= flash() ?>
+
+	<? if (!isset($fatalError)): ?>
+		<div class="form400">
+			<? if (!$complete): ?>
+				<?= Phpr_Form::openTag(array('enctype'=>'multipart/form-data')) ?>
+					<p>This operation will import pages, partials, templates and resources from a file previously created with Export CMS Objects operation.</p>
+
+					<p>Important! Your pages, partials, templates and file resources could be replaced with archive content.</p>
+				
+					<div class="form">
+						<? if ($this->viewDataElement('form_error')): ?>
+							<p class="error"><?= h($form_error) ?></p>
+						<? endif ?>
+					
+						<ul class="formElements">
+							<li class="field full">
+								<label for="archive_file">
+									Archive file
+									<span class="comment">Please upload a .LCA file to import.</span>
+								</label>
+								<div class="fieldContainer">
+									<input type="file" name="file" id="archive_file"/>
+								</div>
+							</li>
+						</ul>
+					</div>
+
+					<?= backend_button('Cancel', url('/cms/backup')) ?>
+					<?= backend_button('Import', array('href'=>'#', 'class'=>'right', 'onclick'=>"if (!confirm('Do you really want to import CMS objects?')) return false; $(this).getForm().submit(); return false;")) ?>
+					<input type="hidden" name="postback" value="1"/>
+
+					<div class="clear"></div>
+				</form>
+			<? else: ?>
+				<p>Import completed successfully. Imported objects:</p>
+				<table class="name_value_list">
+					<tr>
+						<th>Files: </th>
+						<td><?= $exportMan->import_files ?></td>
+					</tr>
+					<tr>
+						<th>Pages new/updated: </th>
+						<td><?= $exportMan->import_new_pages ?>/<?= $exportMan->import_updated_pages ?></td>
+					</tr>
+					<tr>
+						<th>Partials new/updated: </th>
+						<td><?= $exportMan->import_new_partials ?>/<?= $exportMan->import_updated_partials ?></td>
+					</tr>
+					<tr>
+						<th>Templates new/updated: </th>
+						<td><?= $exportMan->import_new_templates ?>/<?= $exportMan->import_updated_templates ?></td>
+					</tr>
+				</table>
+				<?= backend_button('Close', url('/cms/backup')) ?>
+				<div class="clear"></div>
+			<? endif ?>
+		</div>
+	<? else: ?>
+		<p><a href="<?= url('cms/backup') ?>">Return to the Export or Import page</a></p>
+	<? endif ?>
+<? Phpr_View::endBlock() ?>

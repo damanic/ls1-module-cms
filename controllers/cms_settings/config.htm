@@ -1,0 +1,24 @@
+<? Phpr_View::beginBlock("head") ?>
+	<link rel="stylesheet" href="modules/cms/resources/css/cms.css?<?= module_build('cms') ?>" type="text/css"/>
+	<script type="text/javascript" src="modules/cms/resources/javascript/config.js?<?= module_build('cms') ?>"></script>
+<? Phpr_View::endBlock() ?>
+
+<? Phpr_View::beginBlock("view") ?>
+	<ul class="breadcrumbs">
+		<li><a href="<?= url('/system/settings') ?>">Settings</a></li>
+		<li><?= $this->app_page_title ?></li>
+	</ul>
+
+	<div class="form600">
+		<?= Phpr_Form::openTag(array('id'=>'settings_form')) ?>
+			<? $this->formRender($settings) ?>
+			
+			<input type="hidden" id="prev_file_based_field_state" value="<?= $settings->enable_filebased_templates ? 1 : 0 ?>" name="prev_file_based_field_state"/>
+
+			<?= backend_ajax_button('Save', 'config_onSave', array(), "preCheckFunction: onSaveSettings") ?>
+			<?= backend_button('Cancel', url('system/settings')) ?>
+			
+			<div class="clear"></div>
+		</form>
+	</div>
+<? Phpr_View::endBlock() ?>

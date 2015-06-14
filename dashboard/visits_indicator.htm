@@ -1,0 +1,20 @@
+<? if (!Cms_Analytics::isGoogleAnalyticsEnabled()): ?>
+	<h3>Visitors</h3>
+	<p><?= $statistics->unique_visitors_current ?> <?= Backend_Reports::scoreboardDiff($statistics->unique_visitors_current, $statistics->unique_visitors_previous) ?></p>
+	<p class="description">
+		previous: <?= $statistics->unique_visitors_previous ?>
+	</p>
+<? else: ?>
+	<h3>Visits</h3>
+	<p><?= $statistics->unique_visitors_current ?> 
+		<?
+			if ($statistics->unique_visitors_current > $statistics->unique_visitors_previous)
+		 		echo Backend_Reports::scoreboardDiff($statistics->unique_visitors_current, $statistics->unique_visitors_previous, false); 
+			else
+		 		echo Backend_Reports::scoreboardDiff($statistics->unique_visitors_current, $statistics->unique_visitors_previous, false, true); 
+		?>
+	</p>
+	<p class="description">
+		previous: <?= mb_strtolower($statistics->unique_visitors_previous) ?>
+	</p>
+<? endif ?>

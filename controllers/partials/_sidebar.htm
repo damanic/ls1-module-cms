@@ -1,0 +1,25 @@
+<div class="tabs">
+	<ul class="tabs_tabs" id="sidebar_tabs">
+		<li class="round active"><a href="#tab_0">Info</a></li>
+		<li class="round"><a href="#tab_1">Files</a></li>
+		<li class="round"><a href="#tab_4">Handbook</a></li>
+	</ul>
+	<div class="clear tab_separator"></div>
+	<ul class="tabs_pages infoBlock" id="sidebar_pages">
+		<li class="page tab_page ui-layout-anchor-window-bottom full_size_content">
+			<div id="object-summary"><? $this->renderPartial('object_summary') ?></div>
+		</li>
+		<li class="page tab_page">
+			<div class="content">
+				<div class="hint">
+					<p class="description last" id="files_description">Click a file to insert its path to the editor.</p>
+				</div>
+				<?= $this->filebrowserRender() ?>
+			</div>
+		</li>
+		<li class="page hidden scrollable ui-layout-anchor-window-bottom">
+			<div class="offset_bottom"><? $this->renderPartial(PATH_APP.'/modules/cms/controllers/cms_pages/_handbook.htm') ?></div>
+		</li>
+	</ul>
+
+</div>

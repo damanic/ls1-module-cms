@@ -1,0 +1,1 @@
+create index date_and_url on cms_page_visits(visit_date, url);

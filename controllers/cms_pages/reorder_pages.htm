@@ -1,0 +1,27 @@
+<? Phpr_View::beginBlock("head") ?>
+	<script type="text/javascript" src="modules/cms/resources/javascript/pages_tree.js"></script>
+<? Phpr_View::endBlock() ?>
+
+<? Phpr_View::beginBlock("view") ?>
+	<ul class="breadcrumbs">
+		<li><a href="<?= url('/cms/pages') ?>">Pages</a></li>
+		<li><?= $this->app_page_title ?></li>
+	</ul>
+
+	<?= flash() ?>
+
+	<? if ($this->isHintVisible('page_nav_order')): ?>
+		<?= Phpr_Form::openTag(array('id'=>'hint_form')) ?>
+			<div class="hint">
+				<p class="last">Manage page order by dragging white icons in the list below. The page order will be taken into account during the automatic menu generating.</p>
+				<a title="Hide this hint" href="#" class="close" onclick="return hide_tip('page_nav_order', this)">Close</a>
+			</div>
+		</form>
+	<? endif ?>
+	
+	<?= Phpr_Form::openTag(array('id'=>$this->listGetFormId())) ?>
+		<div class="list-hide-setup-panel">
+			<?= $this->listRender(array('list_control_panel'=>'reorder_pages_control_panel')) ?>
+		</div>
+	</form>
+<? Phpr_View::endBlock() ?>

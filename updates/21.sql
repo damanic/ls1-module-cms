@@ -1,0 +1,1 @@
+alter table pages add column pre_action text;

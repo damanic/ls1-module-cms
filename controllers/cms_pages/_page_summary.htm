@@ -1,0 +1,60 @@
+<div class="info-header">
+	<p>Page</p>
+	<h3><?= $form_model->title ? h($form_model->title) : 'untitled' ?></h3>
+</div>
+
+<div class="info-area">
+	<?
+		$address = Phpr::$request->getRootUrl().root_url(Core_String::normalizeUri($form_model->url));
+		$settings_manager = Cms_SettingsManager::get();
+	?>
+	<table class="name-value-report title-width-80">
+		<tr>
+			<th>URL</th>
+			<td><?= $form_model->url ?></td>
+		</tr>
+		<? if ($form_model->label): ?>
+			<tr>
+				<th>Label</th>
+				<td><?= h($form_model->label) ?></td>
+			</tr>
+		<? endif ?>
+		<tr>
+			<th>CMS Action</th>
+			<td><?= $form_model->action_reference ? $form_model->action_reference : 'Custom' ?></td>
+		</tr>
+		<tr>
+			<th>Protocols</th>
+			<td><?= $form_model->protocol_name ? $form_model->protocol_name : 'Any' ?></td>
+		</tr>
+		<tr>
+			<th>Access</th>
+			<td><? 
+				$mode = h($form_model->displayField('security_mode'));
+				if (!$mode)
+					echo "All";
+				else echo $mode;
+			?></td>
+		</tr>
+		<? if ($settings_manager->enable_filebased_templates && $form_model->directory_name): ?>
+			<tr>
+				<th>Directory</th>
+				<td><?= h($form_model->directory_name) ?></td>
+			</tr>
+		<? endif ?>
+		<tr>
+			<th>Last update</th>
+			<td>
+				<? if ($form_model->updated_at): ?>
+					<?= $form_model->displayField('updated_at') ?> by <?= h($form_model->updated_user_name) ?>
+				<? elseif ($form_model->created_user_name): ?>
+					<?= $form_model->displayField('created_at') ?> by <?= h($form_model->created_user_name) ?>
+				<? else: ?>
+					-
+				<? endif ?>
+			</td>
+		</tr>
+	</table>
+	
+	<a href="<?= $address ?>" target="_blank" class="large-image-button preview">Preview</a>
+</div>

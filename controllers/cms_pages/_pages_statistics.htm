@@ -1,0 +1,22 @@
+<? $statistics = $this->eval_page_statistics() ?>
+
+<?= Phpr_Form::openTag(array('id'=>null)) ?>
+	<div class="scoreboardReport">
+		<ul>
+			<li>
+				<h3>Total number of pages</h3>
+				<p><?= $statistics->page_num ?></p>
+				<p class="description">
+					Show all <a href="#" onclick="return $(this).getForm().sendPhpr('index_onResetFilters', {loadIndicator: {show: false}});">(cancel search)</a>
+				</p>
+			</li>
+			<li <? if (!Cms_Theme::is_theming_enabled()): ?>class="last"<? endif ?>>
+				<h3>Protected pages</h3>
+				<p><?= $statistics->protected_page_num ?></p>
+				<p class="description">Not protected: <?= $statistics->page_num-$statistics->protected_page_num ?></p>
+			</li>
+			<? $this->renderPartial(PATH_APP.'/modules/cms/controllers/partials/_theme_info.htm', array('apply_callback'=>'refresh_page_list')) ?>
+		</ul>
+		<div class="clear"></div>
+	</div>
+</form>

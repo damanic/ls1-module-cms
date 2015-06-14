@@ -1,0 +1,20 @@
+<? if (!Cms_Analytics::isGoogleAnalyticsEnabled()): ?>
+	<h3>Pageviews</h3>
+	<p><?= $statistics->pageviews_current ?> <?= Backend_Reports::scoreboardDiff($statistics->pageviews_current, $statistics->pageviews_previous) ?></p>
+	<p class="description">
+		previous: <?= $statistics->pageviews_previous ?>
+	</p>
+<? else: ?>
+	<h3>Pageviews</h3>
+	<p><?= $statistics->pageviews_current ?> 
+		<? 
+			if ($statistics->pageviews_current > $statistics->pageviews_previous)
+				echo Backend_Reports::scoreboardDiff($statistics->pageviews_current, $statistics->pageviews_previous);
+			else
+				echo Backend_Reports::scoreboardDiff($statistics->pageviews_current, $statistics->pageviews_previous, false, true);
+		?>
+	</p>
+	<p class="description">
+		previous: <?= $statistics->pageviews_previous ?>
+	</p>
+<? endif ?>

@@ -1,0 +1,13 @@
+<? $action_info = Cms_ActionManager::getActionInfo($action) ?>
+<div class="info-header">
+	<p>Action</p>
+	<h3><?= h($action) ?></h3>
+</div>
+
+<div class="scrollable-info-area ui-layout-anchor-window-bottom">
+	<? if (!strlen($action_info->info)): ?>
+		<p class="description">This action has no description.</p>
+	<? else: ?>
+		<div class="offset_bottom"><?= $action_info->info ?></div>
+	<? endif ?>
+</div>

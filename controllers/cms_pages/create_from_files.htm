@@ -1,0 +1,31 @@
+<? Phpr_View::beginBlock("head") ?>
+<? Phpr_View::endBlock() ?>
+
+<? Phpr_View::beginBlock("view") ?>
+	<ul class="breadcrumbs">
+		<li><a href="<?= url('/cms/pages') ?>">Pages</a></li>
+		<li><?= $this->app_page_title ?></li>
+	</ul>
+
+	<? if (!isset($fatalError)): ?>
+		<? if ($directories): ?>
+			<div class="form600">
+				<p>LemonStand found some directories not used by any page. This tool allows you to create new pages from these directories. Please specify a title and URL for each directory and click the Create button to create new pages. Empty the Title and URL columns to skip a directory.</p>
+				
+				<?= Phpr_Form::openTag() ?>
+					<? $this->formRender($model) ?>
+
+					<?= backend_ajax_button('Create', 'create_from_files_onCreate') ?>
+					<?= backend_button('Cancel', url('cms/pages')) ?>
+					<div class="clear"></div>
+				</form>
+			</div>
+		<? else: ?>
+			<p>There are no directories not already being used by any of the pages.</p>
+			<p><a href="<?= url('/cms/pages') ?>">Return to the page list</a></p>
+		<? endif ?>
+	<? else: ?>
+		<?= flash() ?>
+		<p><a href="<?= url('/cms/pages') ?>">Return to the page list</a></p>
+	<? endif ?>
+<? Phpr_View::endBlock() ?>

@@ -1,0 +1,56 @@
+/*
+ * Global reset
+ */
+
+html { font-size: 100%; /* IE hack */ }
+
+html, body, form, fieldset, h1, h2, h3, h4, h5, h6, p, pre, 
+blockquote, ul, ol, dl, dt, dd, li, address, dd, dtm, div, td, th, hr
+{
+	margin:0;
+	padding:0;
+}
+
+ul,li
+{
+	list-style-type: none;
+}
+
+body
+{
+	font: 62.5% Helvetica,Arial,Tahoma,Verdana,Helvetica,sans-serif;
+	background-color: white;
+}
+
+/*
+ * Layout
+ */
+
+h1.error
+{
+	background: transparent url(../images/error_header.jpg) no-repeat left top;
+	width: 306px;
+	height: 126px;
+	text-indent: -1000000em;
+}
+
+.message_block
+{
+	width: 320px;
+	margin: 200px auto 0 auto;
+}
+
+.message_block p
+{
+	font-size: 12px;
+	line-height: 150%;
+	color: #333;
+	width: 207px;
+	margin-left: 110px;
+	padding-bottom: 10px;
+}
+
+.message_block .content
+{
+	margin-left: -45px;
+}

@@ -1,0 +1,51 @@
+<div class="toolbar">
+	<?= Phpr_Form::openTag() ?>
+		<? if ($can_edit_pages): ?>
+			<?= backend_ctr_button('Add page', 'new_document', url('/cms/pages/create/dynamic')) ?>
+		<? endif ?>
+		<? if ($can_edit_content || $can_manage_static_pages): ?>
+			<?= backend_ctr_ajax_button('Add static page', 'new_text_document', 'index_onCreateStaticPage', array(), "loadIndicator: {show: false}, onBeforePost: LightLoadingIndicator.show('Creating page...'), onComplete: LightLoadingIndicator.hide") ?>
+		<? endif ?>
+		
+		<? 
+			if ($can_edit_pages && Cms_SettingsManager::get()->enable_filebased_templates)
+			{
+				$dir_count = count(Cms_Page::list_orphan_directories());
+				if ($dir_count)
+					echo backend_ctr_button('Create pages from files <span class="caption_indicator">'.$dir_count.'</span>', 'page_create_from_file', array('href'=>url('cms/pages/create_from_files')));
+				else
+					echo backend_ctr_button('Create pages from files', 'page_create_from_file', array('class'=>'disabled', 'href'=>'#'));
+			}
+		?>
+		
+		<? if ($can_edit_pages && Cms_SettingsManager::get()->enable_filebased_templates): ?>
+			<?= backend_ctr_ajax_button('Reload pages from files', 'page_refresh', 'index_onReloadPagesFromFiles', array(), "loadIndicator: {show: false}, onBeforePost: function(){LightLoadingIndicator.show('Updating pages...')}, onComplete: function(){ LightLoadingIndicator.hide(); listReload(true); }") ?>
+		<? endif ?>
+		
+		<? if ($can_edit_pages || $can_manage_page_order): ?>
+			<div class="separator">&nbsp;</div>
+			<?= backend_ctr_button('Manage page order', 'manage_order', url('/cms/pages/reorder_pages')) ?>
+		<? endif ?>
+
+		<? if ($can_manage_maintenance): ?>
+			<div class="separator">&nbsp;</div>
+			<? 
+				$maintenance_config = Cms_MaintenanceParams::create(); 
+				$label = $maintenance_config->enabled ? 'Disable maintenance mode' : 'Enable maintenance mode';
+				$action = $maintenance_config->enabled ? 'DISABLE' : 'ENABLE';
+				
+				$handler = $maintenance_config->enabled ? 'index_onDisableMaintenanceMode' : 'index_onEnableMaintenanceMode';
+				
+				if ($maintenance_config->is_configured()):
+			?>
+				<?= backend_ctr_ajax_button($label, 'page_paint', $handler, array(), "loadIndicator: {show: false}, onBeforePost: function(){LightLoadingIndicator.show('Loading...')}, onComplete: LightLoadingIndicator.hide, confirm: 'Do you really want to ".$action." maintenance mode?'") ?>
+			<? else: ?>
+				<?= backend_ctr_button($label, 'page_paint', array('class'=>'disabled tooltip', 'href'=>'#', 'onclick'=>"return false", 'title'=>'The maintenance mode function is not configured.<br/>You can configure it on the System/Settings page.')) ?>
+			<? endif ?>
+		<? endif ?>
+
+		<? Backend::$events->fireEvent('cms:onExtendPagesToolbar', $this) ?>
+		
+		<div class="clear"></div>
+	</form>
+</div>

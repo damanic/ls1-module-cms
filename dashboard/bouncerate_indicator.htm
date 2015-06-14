@@ -1,0 +1,19 @@
+<h3>Bounce Rate </h3>
+<? if (Cms_Analytics::isGoogleAnalyticsEnabled()): ?>
+	<p><?= round($statistics->bounce_rate_current*100, 2) ?>%
+		<?
+			if ($statistics->bounce_rate_current < $statistics->bounce_rate_previous)
+				echo Backend_Reports::scoreboardDiff($statistics->bounce_rate_current, $statistics->bounce_rate_previous, true, true);
+			else
+				echo Backend_Reports::scoreboardDiff($statistics->bounce_rate_current, $statistics->bounce_rate_previous, true, false);
+		?>
+	</p>
+	<p class="description">
+		<?= round($statistics->bounce_rate_previous*100, 2) ?>%
+	</p>
+<? else: ?>
+	<p>?</p>
+	<p class="description">
+		GA integration is disabled
+	</p>
+<? endif ?>

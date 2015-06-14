@@ -1,0 +1,19 @@
+<h3>New Visits</h3>
+<? if (Cms_Analytics::isGoogleAnalyticsEnabled()): ?>
+	<p><?= round($statistics->new_visits_current*100, 2) ?>%
+		<?
+			if ($statistics->new_visits_current > $statistics->new_visits_previous)
+				echo Backend_Reports::scoreboardDiff($statistics->new_visits_current, $statistics->new_visits_previous);
+			else
+				echo Backend_Reports::scoreboardDiff($statistics->new_visits_current, $statistics->new_visits_previous, false, true);
+		?>
+	</p>
+	<p class="description">
+		<?= round($statistics->new_visits_previous*100, 2) ?>%
+	</p>
+<? else: ?>
+	<p>?</p>
+	<p class="description">
+		GA integration is disabled
+	</p>
+<? endif ?>

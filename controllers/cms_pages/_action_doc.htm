@@ -1,0 +1,43 @@
+<? $extra_tabs = Backend::$events->fireEvent('cms:onListPageEditorSidebarTabs'); ?>
+
+<ul class="tabs_pages infoBlock" id="action_info_pages">
+	<li class="page tab_page ui-layout-anchor-window-bottom full_size_content">
+		<div id="page-summary"><? $this->renderPartial('page_summary') ?></div>
+	</li>
+	
+	<li class="page tab_page ui-layout-anchor-window-bottom">
+		<div class="content">
+			<div class="hint">
+				<p class="last description" id="files_description">
+					<? if (!isset($content_mode)): ?>
+						Click a file to insert its path to the editor.
+					<? else: ?>
+						Click a file to insert image or link to the editor. Hold ALT for more options.
+					<? endif ?>
+				</p>
+			</div>
+			<?= $this->filebrowserRender() ?>
+		</div>
+	</li>
+	<li class="page tab_page ui-layout-anchor-window-bottom full_size_content" id="action_description_tab_page">
+		<div id="action_info_description">
+			<?= $this->renderPartial('action_description', array('action'=>$form_model->action_reference)) ?>
+		</div>
+	</li>
+	<li class="page hidden scrollable ui-layout-anchor-window-bottom">
+		<div class="offset_bottom"><? $this->renderPartial('handbook') ?></div>
+	</li>
+	
+	<? 
+		foreach ($extra_tabs as $tabs): ?>
+	<? 
+		if (is_array($tabs)): 
+			foreach ($tabs as $tab=>$partial):
+	?>
+		<? $this->renderPartial($partial); ?>
+	<? 
+			endforeach;
+		endif 
+	?>
+	<? endforeach ?>
+</ul>

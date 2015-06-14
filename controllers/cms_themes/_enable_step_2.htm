@@ -1,0 +1,13 @@
+<div class="hint">
+	<p>Theme <strong><?= h($theme->name) ?></strong> has been successfully created and activated. All CMS objects have been moved into the new theme.</p>
+	<? 
+		$sm = Cms_SettingsManager::get(); 
+		if ($sm->enable_filebased_templates):
+	?>
+		<p>File-based templates have been coped from <strong><?= h($sm->get_templates_dir_path(null)) ?></strong> to <strong><?= h($sm->get_templates_dir_path($theme)) ?></strong>. Original templates were not deleted automatically. Please delete them manually.</p>
+	<? endif ?>
+	<p class="last">Please copy theme-specific resource files from your website resources directory (<?= '/'.Cms_SettingsManager::get()->resources_dir_path ?>) to the theme resources directory (<strong>/themes/<?= h($theme->code) ?>/resources</strong>) and update references to JavaScript, CSS and image files in your pages, partials and layouts as it is described in the <a target="_blank" href="http://lemonstand.com/docs/enabling_theming">documentation</a>.</p>
+</div>
+
+<?= backend_button('Done', url('system/settings')) ?>
+<div class="clear"></div>

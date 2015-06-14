@@ -1,0 +1,19 @@
+<ul class="formElements">
+	<li class="field text left">
+		<label for="captcha_value">
+			CAPTCHA challenge
+			<span class="comment">Enter the letters as they are shown in the image</span> 
+		</label>
+	
+		<div class="fieldContainer ">
+			<input type="text" name="Cms_Stats_Settings[captcha_value]" id="captcha_value" class="varchar" value="" maxlength="255" autocomplete="off">
+		</div>
+		<div class="clear"></div>
+	</li>	
+	<li class="field google_captcha right">
+		<div><img src="<?= $captcha_url ?>" alt=""/></div>
+	</li>
+</ul>
+
+<input type="hidden" value="<?= h($captcha_token) ?>" name="Cms_Stats_Settings[captcha_token]"/>
+<script type="text/javascript">alert('Please enter the letters as they shown in the image.')</script>

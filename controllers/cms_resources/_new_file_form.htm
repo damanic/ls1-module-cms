@@ -1,0 +1,45 @@
+<div id="new_file_popup">
+	<h2>New file</h2>
+	<div class="content">
+		<div class="form300">
+			<?= Phpr_Form::openTag() ?>
+			
+				<p>You may create only editable file types (<?= implode(', ', $this->getEditableTypes()) ?>).</p>
+
+				<? if (!isset($fatalError)): ?>
+					<div class="form">
+						<!--[if IE]><fieldset class="ie_fix"><![endif]-->
+							<div class="formFlash"></div>
+						<!--[if IE]></fieldset><![endif]-->
+
+						<ul class="formElements">
+							<li class="field text full">
+								<label for="file_name">File Name<span class="required">*</span></label>
+								<div class="fieldContainer">
+									<input type="text" name="file_name" id="file_name" class="varchar" maxlength="100"/>
+								</div>
+							</li>
+						</ul>
+						<div class="clear"></div>
+					</div>
+
+					<script type="text/javascript">
+						$('new_file_popup').addEvent('popupLoaded', function(){
+							$('file_name').focus();
+						});
+					</script>
+
+					<?= backend_ajax_button('Create', 'index_onNewFile', array('class'=>'default'), "
+						loadIndicator: {injectInElement: true}") ?>
+					<?= backend_button('Cancel', array('onclick'=>'return cancelPopup()')) ?>
+					<input type="hidden" id="file_path" name="file_path" value="<?= h($dir) ?>"/>
+				<? else: ?>
+					<div class="formFlash"><?= flash() ?></div>
+					<?= backend_button('Cancel', array('onclick'=>'return cancelPopup()')) ?>
+				<? endif ?>
+			
+				<div class="clear"></div>
+			</form>
+		</div>
+	</div>
+</div>

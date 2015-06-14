@@ -1,0 +1,1 @@
+alter table cms_settings add column content_file_extension varchar(5) default 'htm';

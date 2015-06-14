@@ -1,0 +1,47 @@
+<h2>Top Pages</h2>
+
+<? 
+	$data = $this->evalTopPages();
+	$stats = $this->evalStatistics();
+	$pageviews = 0;
+	$row_num = count($data);
+?>
+
+<table class="simpleList">
+	<thead>
+		<tr>
+			<th>Page</th>
+			<th class="float">Pageviews</th>
+			<th class="float current last">% Pageviews</th>
+		</tr>
+	</thead>
+	<tbody>
+		<? if (!$row_num): ?>
+			<tr class="noData"><td colspan="3">&lt;no data&gt;</td></tr>
+		<? else: ?>
+			<? foreach ($data as $index=>$page): 
+				$pageviews += $page->cnt;
+			?>
+				<tr class="<?= Backend_Html::zebra('top_pages') ?> <?= $row_num-1 == $index ? 'last' : null ?>">
+					<td><?= h(Phpr_Html::strTrim($page->url, 100)) ?></td>
+					<td class="float"><?= $page->cnt ?></td>
+					<td class="current float last"><?= $stats->pageviews_current > 0 ? round($page->cnt/$stats->pageviews_current*100, 2).'%' : '0%' ?></td>
+				</tr>
+			<? endforeach ?>
+		<? endif ?>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td>
+				<? 
+					if (Cms_Analytics::isGoogleAnalyticsEnabled()): 
+					$statSettings = Cms_Stats_Settings::get();
+				?>
+					<a href="https://www.google.com/analytics/reporting/?reset=1&amp;id=<?= h($statSettings->ga_siteid) ?>" target="_blank">Visit Google Analytics</a>
+				<? endif ?>
+			</td>
+			<td class="float total"><?= $pageviews ?></td>
+			<td class="last">&nbsp;</td>
+		</tr>
+	</tfoot>
+</table>

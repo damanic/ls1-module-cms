@@ -1,0 +1,20 @@
+/*
+ * Global reset
+ */
+
+html { font-size: 100%; /* IE hack */ }
+
+html, body, form, fieldset, h1, h2, h3, h4, h5, h6, p, pre, 
+blockquote, ul, ol, dl, dt, dd, li, address, dd, dtm, div, td, th, hr
+{
+	margin:0;
+	padding:0;
+}
+
+body
+{
+	font: 62.5% Arial,Helvetica,Tahoma,Verdana,Helvetica,sans-serif;
+	min-width: 700px;
+	background: #ccc url(../images/messages_bg.gif) repeat left top;
+	padding: 15px;
+}

@@ -1,0 +1,42 @@
+<h3>Developer Handbook</h3>
+
+<p class="description">The developer handbook contains general information about common API functions. Please read the <a target="_blank" href="http://lemonstand.com/wiki/api_function_and_class_reference">API section</a> in the LemonStand Wiki in order to learn more about available functions, classes and actions.</p>
+
+<h4 class="separated">Common methods</h4>
+
+<ul>
+	<li><strong><a href="http://lemonstand.com/wiki/class_cms_controller/#render_partial" target="_blank">$this-&gt;render_partial('partial_name')</a></strong> - renders a partial with specified name.</li>
+	<li><strong><a href="http://lemonstand.com/wiki/class_cms_controller/#request_param" target="_blank">$this-&gt;request_param(0, 'default')</a></strong> - returns a URL parameter value by its index.</li>
+	<li><strong><a href="http://lemonstand.com/wiki/class_cms_controller/#render_page" target="_blank">$this-&gt;render_page()</a></strong> - outputs a page content. Call this function in page templates in a place where you want the page to be rendered.</li>
+	<li><strong><a href="http://lemonstand.com/wiki/class_cms_controller/#render_head" target="_blank">$this-&gt;render_head()</a></strong> - outputs a page head content. Call this function in page templates in a place where you want the page-specific head declarations to be rendered.</li>
+	<li><strong><a href="http://lemonstand.com/wiki/class_cms_controller/#render_block" target="_blank">$this-&gt;render_block('sidebar')</a></strong> - outputs a page block defined on the Head &amp; Tabs tab of the page editor. Call this function in page templates in a place where you want to output a specific page block.</li>
+</ul>
+
+<h4 class="separated">Functions</h4>
+
+<ul>
+	<li><strong><a href="http://lemonstand.com/wiki/function_content_block" target="_blank">content_block('about_us', 'About Us')</a></strong> - outputs a content block with specified code. The second (block name) argument is used in the content editing mode to refer the block. Use only alphanumeric characters for the block code. Please do not use brackets in the block name.</li>
+	<li><strong><a href="http://lemonstand.com/wiki/function_global_content_block" target="_blank">global_content_block('footer')</a></strong> - outputs a global content block with specified code. Global content blocks should be created on the CMS/Content page before they can be displayed.</li>
+	<li><strong><a href="http://lemonstand.com/wiki/function_checkbox_state" target="_blank">checkbox_state(true)</a></strong> - outputs <em>checked='checked'</em> if the parameter value is TRUE. Use it with checkbox INPUT elements.</li>
+	<li><strong><a href="http://lemonstand.com/wiki/function_customer_logout" target="_blank">customer_logout('/')</a></strong> - closes a current customer session (logs the customer out) and redirects browser to a specified URL.</li>
+	<li><strong><a href="http://lemonstand.com/wiki/function_flash_message" target="_blank">flash_message()</a></strong> - outputs flash message previously set by a page action.</li>
+	<li><strong><a href="http://lemonstand.com/wiki/function_format_currency" target="_blank">format_currency(99.99)</a></strong> - outputs currency value according currency settings.</li>
+	<li><strong><a href="http://lemonstand.com/wiki/function_h" target="_blank">h('string')</a></strong> - returns an HTML string in safe format, replacing all HTML-sensitive symbols with corresponding HTML sequences, so &lt; becomes &amp;lt;. </li>
+	<li><strong><a href="http://lemonstand.com/wiki/function_include_resources" target="_blank">include_resources()</a></strong> - returns HTML code for including JavaScript libraries required for LemonStand AJAX framework. Call this function in the HEAD element of a page or template.</li>
+	<li><strong><a href="http://lemonstand.com/wiki/function_open_form" target="_blank">open_form(array('id'=>'my_form'))</a></strong> - outputs an opening FORM element with ACTION attribute value pointing to a current page. The optional array parameter could be used for setting FORM element attribute values.</li>
+	<li><strong><a href="http://lemonstand.com/wiki/function_option_state" target="_blank">option_state('current', 'selected')</a></strong> - outputs <em>selected="selected"</em> if the first parameter value equals the second one. This function is intended for using with OPTION elements.</li>
+	<li><strong><a href="http://lemonstand.com/wiki/function_post" target="_blank">post('variable', 'default')</a></strong> - returns POST variable value by its name or an optional default value.</li>
+	<li><strong><a href="http://lemonstand.com/wiki/function_post_array_item" target="_blank">post_array_item('array', 'variable', 'default')</a></strong> - returns an element from an array posted in the POST request. If the array or element do not exist, returns the default value.</li>
+	<li><strong><a href="http://lemonstand.com/wiki/function_radio_state" target="_blank">radio_state(true)</a></strong> - outputs <em>checked='checked'</em> if the parameter value is TRUE. Use it with radio button INPUT elements.</li>
+	<li><strong><a href="http://lemonstand.com/wiki/function_site_url" target="_blank">site_url('login')</a></strong> - outputs a full URL: http://www.yoursite.com/login</li>
+</ul>
+
+<h4 class="separated">AJAX requests</h4>
+
+<p><a href="http://lemonstand.com/wiki/lemonstand_front_end_javascript_framework" target="_blank">LemonStand AJAX framework</a> uses partials and a few lines of JavaScript code. To post AJAX request you should write something like this: </p>
+
+<div class="code">
+	&lt;input type=&quot;button&quot; onclick=&quot;return $(this).getForm().<em>sendRequest</em>(
+	 &#x27;shop:on_addToCart&#x27;, {<em>update</em>: {&#x27;mini_cart&#x27;: &#x27;shop:mini_cart&#x27;}
+	 })&quot; value=&quot;Add to cart&quot; name=&quot;add_to_cart&quot;&gt;
+</div>

@@ -1,0 +1,44 @@
+<div id="rename_folder_popup">
+	<h2>Rename folder</h2>
+	<div class="content">
+		<div class="form300">
+			<?= Phpr_Form::openTag() ?>
+
+				<? if (!isset($fatalError)): ?>
+					<div class="form">
+						<!--[if IE]><fieldset class="ie_fix"><![endif]-->
+							<div class="formFlash"></div>
+						<!--[if IE]></fieldset><![endif]-->
+
+						<ul class="formElements">
+							<li class="field text full">
+								<label for="folder_name">Folder Name<span class="required">*</span></label>
+								<div class="fieldContainer">
+									<input type="text" name="folder_name" id="folder_name" class="varchar" value="<?= h($folder_name) ?>" maxlength="100"/>
+								</div>
+							</li>
+						</ul>
+						<div class="clear"></div>
+					</div>
+
+					<script type="text/javascript">
+						$('rename_folder_popup').addEvent('popupLoaded', function(){
+							$('folder_name').focus();
+						});
+					</script>
+
+					<?= backend_ajax_button('Rename', 'index_onRenameFolder', array(), "
+						loadIndicator: {injectInElement: true}, onSuccess: function(){ cancelPopup();
+							 $('FormElement').sendPhpr('index_onNavigate', {loadIndicator: {show:false}})}") ?>
+					<?= backend_button('Cancel', array('onclick'=>'return cancelPopup()')) ?>
+					<input type="hidden" name="dir" value="<?= h($dir) ?>"/>
+				<? else: ?>
+					<div class="formFlash"><?= flash() ?></div>
+					<?= backend_button('Cancel', array('onclick'=>'return cancelPopup()')) ?>
+				<? endif ?>
+			
+				<div class="clear"></div>
+			</form>
+		</div>
+	</div>
+</div>

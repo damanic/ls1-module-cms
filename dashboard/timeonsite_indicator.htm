@@ -1,0 +1,15 @@
+<h3>Time on Site</h3>
+<? if (Cms_Analytics::isGoogleAnalyticsEnabled()): ?>
+	<p>
+		<?= Backend_Reports::secondsToTime($statistics->time_on_site_current) ?>
+		<?= Backend_Reports::scoreboardDiff($statistics->time_on_site_current, $statistics->time_on_site_previous, false, true) ?>
+	</p>
+	<p class="description">
+		<?= Backend_Reports::secondsToTime($statistics->time_on_site_previous) ?>
+	</p>
+<? else: ?>
+	<p>?</p>
+	<p class="description">
+		GA integration is disabled
+	</p>
+<? endif ?>

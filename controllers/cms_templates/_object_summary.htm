@@ -1,0 +1,33 @@
+<div class="info-header">
+	<p>Layout</p>
+	<h3><?= $form_model->name ? h($form_model->name) : 'untitled' ?></h3>
+</div>
+
+<div class="info-area">
+	<table class="name-value-report title-width-80">
+		<tr>
+			<th>Description</th>
+			<td><?= $form_model->description ? h($form_model->description) : '-' ?></td>
+		</tr>
+		<?
+			$settings_manager = Cms_SettingsManager::get();
+			if ($settings_manager->enable_filebased_templates && $form_model->file_name):
+		?>
+			<tr>
+				<th>File</th>
+				<td><?= h($form_model->file_name.'.'.$settings_manager->content_file_extension) ?></td>
+			</tr>
+		<? endif ?>
+			<tr>
+				<th>Last update</th>
+				<td>
+					<? if ($form_model->updated_at): ?>
+						<?= $form_model->displayField('updated_at') ?> by <?= h($form_model->updated_user_name) ?></td>
+					<? elseif ($form_model->created_user_name): ?>
+						<?= $form_model->displayField('created_at') ?> by <?= h($form_model->created_user_name) ?></td>
+					<? else: ?>
+						-
+					<? endif ?>
+			</tr>
+	</table>
+</div>

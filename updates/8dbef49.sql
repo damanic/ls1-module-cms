@@ -1,0 +1,1 @@
+alter table cms_settings add column resources_dir_path varchar(255);

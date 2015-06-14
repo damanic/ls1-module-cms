@@ -1,0 +1,19 @@
+<? if (Cms_Theme::is_theming_enabled()): ?>
+	<? if ($active_theme = Cms_Theme::get_default_theme()): ?>
+		<li>
+			<h3>Default theme</h3>
+			<p><?= h($active_theme->name) ?></p>
+			<p class="description">Code: <?= h($active_theme->code) ?></p>
+		</li>
+	<? endif ?>
+	<? if ($edit_theme = Cms_Theme::get_edit_theme()): ?>
+		<li class="last">
+			<h3>You are editing</h3>
+			<p class="clear-fix">
+				<span class="selector-tool-text"><?= h($edit_theme->name) ?></span>
+				<a href="#" class="selector-tool-button" title="Select theme" onclick="return cms_show_select_theme_popoup('<?= $this->getEventHandler('') ?>', <?= $apply_callback ?>)"><span>Select theme</span></a>
+			</p>
+			<p class="description">Code: <?= h($edit_theme->code) ?></p>
+		</li>
+	<? endif ?>
+<? endif ?>

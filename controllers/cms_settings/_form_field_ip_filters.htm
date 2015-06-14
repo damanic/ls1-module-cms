@@ -1,0 +1,12 @@
+<li class="field full <?= $form_model->enable_builtin_statistics ? null : 'hidden' ?>" id="ip_filters">
+	<label>
+		IP Filters
+		<span class="comment">Declare IP addresses to filter in statistics.</span>
+	</label>
+
+	<div id="ip_filter_list">
+		<? $this->renderPartial('ip_filter_list') ?>
+	</div>
+
+	<p class="addDocument img_noBottomPading"><a href="#" onclick="new PopupForm('stats_onLoadFilterForm'); return false;">Add filter</a></p>
+</li>

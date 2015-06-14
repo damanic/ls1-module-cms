@@ -1,0 +1,85 @@
+<? Phpr_View::beginBlock("head") ?>
+	<script type="text/javascript" src="modules/backend/resources/javascript/unload_manager.js"></script>
+	<link rel="stylesheet" href="modules/cms/resources/css/resources.css?<?= module_build('cms') ?>" type="text/css"/>
+	<link rel="stylesheet" href="phproad/modules/db/behaviors/db_listbehavior/resources/css/list.css?<?= module_build('core') ?>" type="text/css"/>
+	<link rel="stylesheet" href="phproad/modules/db/behaviors/db_formbehavior/resources/css/forms.css?<?= module_build('core') ?>" type="text/css"/>
+
+	<script type="text/javascript" src="phproad/thirdpart/ace/ace.js?<?= module_build('core') ?>"></script>
+	<script type="text/javascript" src="phproad/modules/db/behaviors/db_formbehavior/resources/javascript/ace_wrapper.js??<?= module_build('core') ?>"></script>
+
+	<script type="text/javascript" src="modules/cms/resources/javascript/fileedit.js"></script>
+
+	<script type="text/javascript">
+		UnloadManager.unload_message = 'The file content has been changed. Unsaved data will be lost.';
+	</script>
+<? Phpr_View::endBlock() ?>
+
+<? Phpr_View::beginBlock("view") ?>
+	<ul class="breadcrumbs">
+		<li><a href="<?= url('/cms/resources') ?>">Resources</a></li>
+		<li><?= $this->app_page_title ?></li>
+	</ul>
+	
+	<?= flash() ?>
+	
+	<? if (!isset($fatalError)): ?>
+		<div class="minorPadding">
+			<div class="scoreboardReport">
+				<ul>
+					<li class="last">
+						<h3>File</h3>
+						<p><?= h($file_path) ?></p>
+					</li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+		</div>
+	
+		<? if (!($lock = Db_RecordLock::lock_exists(md5($file_path)))): 
+			$form_lock_object = Db_RecordLock::lock(md5($file_path));
+		?>
+		
+			<?= Phpr_Form::openTag() ?>
+				<div class="form">
+					<!--[if IE]><fieldset class="ie_fix"><![endif]-->
+						<div class="formFlash"></div>
+					<!--[if IE]></fieldset><![endif]-->
+
+					<ul class="formElements">
+						<li class="field code_editor full">
+							<div class="fieldContainer code">
+								<div class="code_wrapper giant">
+									<textarea class="giant" id="file_content" name="file_content"><?= h($file_contents) ?></textarea>
+
+									<script type="text/javascript">
+										window.addEvent('domready', function(){
+											init_code_editor('file_content', '<?= $ext ?>', <?= Backend_CodeEditorConfiguration::create()->render_settings() ?>);
+										});
+									</script>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<div class="clear"></div>
+				</div>
+
+				<?= backend_ajax_button('Save', 'edit_onSave', array(), "prepareFunction: function(){phprTriggerSave();}, extraFields: {redirect: 0}, loadIndicator: {hideOnSuccess: true}, onSuccess: function(){UnloadManager.reset_changes()}") ?>
+				<?= backend_ajax_button('Save and Close', 'edit_onSave', array('class'=>'default'), "prepareFunction: function(){phprTriggerSave();}, onBeforeScriptEval: function(){UnloadManager.reset_changes()}") ?>
+
+				<?= backend_ajax_button('Close', 'edit_onCancel', array(), "onBeforeScriptEval: function(){UnloadManager.reset_changes()}") ?>
+				<div class="clear"></div>
+			</form>
+			<?= Phpr_Form::openTag(array('id'=>'phpr_lock_form_element')) ?>
+				<input type="hidden" name="lock_id" value="<?= $form_lock_object->id ?>" id="form_lock_record_id"/>
+			</form>
+		<? else: ?>
+			<? $this->renderPartial(PATH_APP.'/modules/backend/controllers/partials/_record_locked.htm', array(
+				'record_name'=>'file',
+				'lock'=>$lock,
+				'cancel_url'=>url('/cms/resources')
+			)) ?>
+		<? endif ?>
+	<? else: ?>
+		<p><a href="<?= url('/cms/resources') ?>">Return to the resource manager</a></p>
+	<? endif ?>
+<? Phpr_View::endBlock() ?>

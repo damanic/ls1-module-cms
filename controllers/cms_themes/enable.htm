@@ -1,0 +1,27 @@
+<? Phpr_View::beginBlock("head") ?>
+<? Phpr_View::endBlock() ?>
+
+<? Phpr_View::beginBlock("view") ?>
+	<ul class="breadcrumbs">
+		<li><a href="<?= url('/system/settings') ?>">Settings</a></li>
+		<li><?= $this->app_page_title ?></li>
+	</ul>
+
+	<div class="form600">
+		<? if (!Cms_Theme::is_theming_enabled()): ?>
+		<?= Phpr_Form::openTag(array('id'=>'settings_form')) ?>
+				<div id="form_content">
+					<? $this->formRender($theme) ?>
+
+					<?= backend_ajax_button('Apply', 'enable_onApply', array('class'=>'default'), "loadIndicator: {hideOnSuccess: true}, update: 'form_content'") ?>
+					<?= backend_button('Cancel', url('system/settings')) ?>
+				</div>
+			
+				<div class="clear"></div>
+			</form>
+		<? else: ?>
+			<div class="hint"><p class="last">Theming feature is already enabled. Please refer to the <a target="_blank" href="http://lemonstand.com/docs/enabling_theming">documentation</a> for information about enabling Theming in existing LemonStand installations.</p></div>
+			<?= backend_button('Cancel', url('system/settings')) ?>
+		<? endif ?>
+	</div>
+<? Phpr_View::endBlock() ?>

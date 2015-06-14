@@ -1,0 +1,52 @@
+<? 
+	$curFolder = $this->getAppRelativeFolder($this->getCurrentFolder());
+	$files = $this->getFolderContents();
+	$fileCnt = count($files);
+	
+	$selected_files = Phpr::$session->flash['system'] ? Phpr::$session->flash['system'] : array();
+?>
+
+<p class="info">Directory: <strong><?= h($curFolder) ?></strong>. File number: <strong><?= $fileCnt ?></strong>. Click a file to preview or edit.</p>
+
+<table class="simpleList">
+	<thead>
+		<tr>
+			<? if ($fileCnt): ?>
+				<th class="checkbox">
+					<input id="files_head_cb" type="checkbox" value="1" onclick="$('file_list').getElements('input.file_list_cb').each(function(cb){cb.cb_update_state(this.checked)}, this)"/>
+				</th>
+			<? endif ?>
+			<th class="current">Name</th>
+			<th>Size</th>
+			<th class="<?= !$fileCnt ? 'last' : null ?>">URL</th>
+			<? if ($fileCnt): ?>
+				<th class="fileControls last">&nbsp;</th>
+			<? endif ?>
+		</tr>
+	</thead>
+
+	<tbody>
+		<? if (!$fileCnt): ?>
+			<tr class="noData">
+				<td colspan="4" class="last">There are no files in this directory.</td>
+			</tr>
+		<? else: ?>
+			<? foreach ($files as $file): 
+				$url = $this->isEditable($file->name) ? url('cms/resources/edit/'.base64_encode($curFolder.'/'.$file->name)) : root_url($curFolder.'/'.$file->name);
+			?>
+				<tr class="<?= Backend_Html::zebra('file') ?>">
+					<td class="checkbox">
+						<input name="file_names[]" class="file_list_cb" type="checkbox" value="<?= $curFolder.'/'.$file->name ?>" <?= Phpr_Form::checkboxState(in_array($curFolder.'/'.$file->name, $selected_files)) ?> onclick="if (!this.checked) $('files_head_cb').cb_uncheck()"/>
+					</td>
+					<td class="current link" <?= click_link($url) ?>><a href="<?= $url ?>"><?= h($file->name) ?></a></td>
+					<td class="link" <?= click_link($url) ?>><a href="<?= $url ?>"><?= Phpr_Files::fileSize($file->size) ?></a></td>
+					<td class="link" <?= click_link($url) ?>><a href="<?= $url ?>"><?= $curFolder.'/'.$file->name ?></a></td>
+					<td class="fileControls last">
+						<a onclick="return $(this).getForm().sendPhpr('index_onDeleteFile', {confirm: 'Do you really want to delete file <?= $file->name ?>?', loadIndicator: {show: false}, extraFields: {file: '<?= $curFolder.'/'.$file->name ?>'}});" title="Delete file" class="deleteDocument last" href="#">Delete</a>
+						<a onclick="new PopupForm('index_onShowRenameForm', {ajaxFields: {file: '<?= $curFolder.'/'.$file->name ?>'}}); return false;" title="Rename file" class="renameDocument" href="#">Rename</a>
+					</td>
+				</tr>
+			<? endforeach ?>
+		<? endif ?>
+	</tbody>
+</table>

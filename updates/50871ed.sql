@@ -1,0 +1,1 @@
+alter table cms_themes add column is_enabled tinyint(4) default 1;

@@ -1,0 +1,11 @@
+<div class="hint">
+	<? 
+		$file_path = Phpr::$config->get('TEMPLATE_PATH', '');
+		if (!$file_path):
+	?>
+	<p>Your LemonStand installation directory is<br/><?= PATH_APP ?></p>
+	<p class="last">You can use {APP} variable as LemonStand root directory marker. Example:<br/>{APP}/../templates</p>
+	<? else: ?>
+		<p class="last">You have TEMPLATE_PATH parameter defined in the config.php script. This parameter overrides a path which you specify in this field. The TEMPLATE_PATH parameter value is<br/><?= h($file_path) ?></p>
+	<? endif ?>
+</div>

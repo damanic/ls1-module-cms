@@ -1,0 +1,1 @@
+alter table cms_stats_settings add column ga_domain_name varchar(255);

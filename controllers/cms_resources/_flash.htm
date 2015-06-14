@@ -1,0 +1,11 @@
+<?
+	foreach ( Phpr::$session->flash as $type=>$message )
+	{
+		if ($type == 'system')
+			continue;
+
+		echo '<p class="'.$type.'">'.$message.'</p>';
+	}
+
+	Phpr::$session->flash->now();
+?>

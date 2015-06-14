@@ -1,0 +1,59 @@
+<div id="new_file_popup">
+	<h2>Select page</h2>
+	<div class="content">
+		<div class="form500">
+			<?= Phpr_Form::openTag() ?>
+				<? if (!isset($fatalError)): ?>
+					<div class="form">
+						<div class="formFlash"></div>
+						<p>Please select page in each installed theme.</p>
+						
+						<div class="form_page">
+							<ul class="formElements">
+								<? foreach ($themes as $theme): 
+									$pages = Cms_Page::create()->get_page_tree_options(-1, 100, $theme->id);
+								?>
+									<li class="field dropdown full">
+										<label for="">
+											<?= h($theme->name) ?>
+											<span class="comment">Theme code: <?= h($theme->code) ?></span>
+										</label>
+										<div class="fieldContainer ">
+											<select name="page[<?= $theme->id ?>]" autocomplete="off">
+												<option value=""></option>
+												<? foreach ($pages as $page_id=>$page_name): ?>
+													<option <?= Phpr_Form::optionState(true, in_array($page_id, $selected_pages)) ?> value="<?= $page_id ?>"><?= $page_name ?></option>
+												<? endforeach ?>
+											</select>
+										</div>
+									</li>
+								<? endforeach ?>
+							</ul>
+						</div>
+						
+						<div class="clear"></div>
+					</div>
+					
+					<input type="hidden" name="label_id" value="<?= h($label) ?>"/>
+					<input type="hidden" name="container_id" value="<?= h($container) ?>"/>
+					<input type="hidden" name="field_name" value="<?= h($field_name) ?>"/>
+					<input type="hidden" name="reference_name" value="<?= h($reference_name) ?>"/>
+					<input type="hidden" name="model_class" value="<?= h($model_class) ?>"/>
+
+					<?= backend_ajax_button('Apply', 
+						$this->getEventHandler('on_cms_page_selector_on_apply'), array('class'=>'default'), "
+							loadIndicator: {injectInElement: true}, 
+							update: 'multi',
+							onAfterUpdate: cancelPopup"
+					) ?>
+					<?= backend_button('Cancel', array('onclick'=>'return cancelPopup()')) ?>
+				<? else: ?>
+					<div class="formFlash"><?= flash() ?></div>
+					<?= backend_button('Cancel', array('onclick'=>'return cancelPopup()')) ?>
+				<? endif ?>
+			
+				<div class="clear"></div>
+			</form>
+		</div>
+	</div>
+</div>

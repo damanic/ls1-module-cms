@@ -1,0 +1,81 @@
+<? 
+	$cur_folder = $this->getCurrentFolder();
+	$rootDir = !isset($dir);
+	
+	if (!isset($level))
+		$level = 1;
+
+	if ($rootDir): 
+		$expanded = $this->isFolderExpanded($root_code);
+		
+		if (!isset($root_class))
+			$root_class = null;
+		
+		$display_theme_selector = isset($display_theme_selector) && $display_theme_selector;
+?>
+	<ul>
+		<li class="<?= $display_theme_selector ? 'theme-selector clear-fix' : 'content-fill' ?> root <?= $root_class ?> <?= Backend_Html::zebra('resources') ?> <?= $cur_folder == PATH_APP.'/'.$root ? 'current' : null ?>" onclick="return $('FormElement').sendPhpr('index_onNavigate', {loadIndicator: {show:false}, onBeforePost: LightLoadingIndicator.show.pass('Loading...'), onComplete: LightLoadingIndicator.hide,  extraFields: {dir: '<?= '/'.$root ?>'}});">
+			<div class="item-content">
+				<div class="item">
+					<span class="folder_item">
+						<a href="#" onclick="$('FormElement').sendPhpr('index_onToggleFolder', {loadIndicator: {show:false}, onBeforePost: LightLoadingIndicator.show.pass('Loading...'), onComplete: LightLoadingIndicator.hide, extraFields: {'status': '<?= $expanded ? 1 : 0 ?>', dir: '<?= $root_code ?>'}}); new Event(event).stop(); return false" class="folder_collapse_control <?= $expanded ? 'expanded' : null ?>">+</a>
+						<a href="#" onclick="return false">
+							<?= h($root_name) ?>
+							<span class="root_description"><?= h($root_description) ?></span>
+						</a>
+					</span>
+					<div class="clear"></div>
+				</div>
+			</div>
+			<? if ($display_theme_selector): ?>
+				<a href="#" class="selector-tool-button" title="Select theme" onclick="cms_show_select_theme_popoup('<?= $this->getEventHandler('') ?>', refresh_resources_page ); new Event(event).stopPropagation(); return false;"><span>Select theme</span></a>
+			<? endif ?>
+		</li>
+<? endif ?>
+	<? if ( !$rootDir || $this->isFolderExpanded($root_code) ): ?>
+		<?
+			if (!isset($dir))
+				$dir = '/'.$root;
+
+			$relative_dir = $dir;
+			$dir = PATH_APP.$dir;
+
+			if (is_dir($dir))
+			{
+				$files = scandir($dir);
+				natcasesort($files);
+				foreach($files as $index => $file)
+				{
+					$dir_path = $dir.'/'.$file;
+					if ($file == '.' || $file == '..' || !is_dir($dir_path) || ($file == '.svn') || ($file == '.DS_Store'))
+						continue;
+					$expanded = $this->isFolderExpanded($dir_path);
+					$has_subfolders = $this->folderHasSubfolders($dir_path);
+				?>
+					<li onclick="return $('FormElement').sendPhpr('index_onNavigate', {loadIndicator: {show:false}, onBeforePost: LightLoadingIndicator.show.pass('Loading...'), onComplete: LightLoadingIndicator.hide, extraFields: {dir: '<?= $relative_dir.'/'.$file ?>'}});" class="content-fill <?= Backend_Html::zebra('resources') ?> <?= $cur_folder == $dir_path ? 'current' : null ?>">
+						<div class="item" style="padding-left: <?= 15*$level ?>px">
+							<span class="folder_item <?= $has_subfolders ? null : 'no-subfolders' ?>">
+								<a href="#" onclick="<? if ($has_subfolders): ?>$('FormElement').sendPhpr('index_onToggleFolder', {loadIndicator: {show:false}, onBeforePost: LightLoadingIndicator.show.pass('Loading...'), onComplete: LightLoadingIndicator.hide, extraFields: {'status': '<?= $expanded ? 1 : 0 ?>', dir: '<?= $relative_dir.'/'.$file ?>'}}); new Event(event).stop(); return false;<? else: ?>return false<?endif?>" class="folder_collapse_control <?= $expanded && $has_subfolders ? 'expanded' : null ?>">+</a>
+								
+								<a href="#" onclick="return false"><?= h($file) ?></a>
+							</span>
+							<div class="clear"></div>
+						</div>
+					</li>
+					<?
+						if ($expanded)
+							$this->renderPartial('directory_list', array(
+								'dir'=>$relative_dir.'/'.$file,
+								'level'=>$level+1,
+								'root'=>$root,
+								'root_name'=>$root_name
+							));
+					?>
+				<?
+				}
+			}
+		?>
+	<? endif ?>
+<? if ($rootDir): ?>
+	</ul>
+<? endif ?>

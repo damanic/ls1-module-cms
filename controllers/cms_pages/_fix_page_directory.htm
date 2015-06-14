@@ -1,0 +1,73 @@
+<div class="warning_fix_form form400" id="fix_object_file">
+	<h2>Page directory not found</h2>
+	<p>The page directory <strong><?= h($form_model->directory_name) ?>
+	</strong> cannot be found. Please select action from the list below:</p>
+
+	<?= Phpr_Form::openTag() ?>
+		<div class="form">
+			<div class="formFlash"></div>
+			<ul class="formElements">
+				<li class="field radio full ">
+					<div class="fieldContainer radio">
+						<div class="option">
+							<input type="radio" id="delete_object" name="action" value="delete" autocomplete="off" class="radio"/>
+							<label class="choice" for="delete_object">Delete page</label>
+						</div>
+					</div>
+				</li>
+				<li class="field radio full ">
+					<div class="fieldContainer radio">
+						<div class="option">
+							<input type="radio" id="create_new_file" name="action" value="create_new" autocomplete="off" class="radio"/>
+							<label class="choice" for="create_new_file">Create new page directory</label>
+						</div>
+					</div>
+				</li>
+			
+				<li class="field text full checkbox_align hidden" id="new_file_name_field">
+					<label for="new_file_name">
+						Directory name
+						<span class="comment">Please specify the page directory name.</span>
+					</label>
+					<div class="fieldContainer">
+						<input type="text" name="new_file_name" id="new_file_name" class="varchar" value="<?= h($form_model->create_file_name()) ?>" maxlength="255" autocomplete="off"/>
+					</div>
+					<div class="clear"></div>
+				</li>
+				
+				<li class="field radio full ">
+					<div class="fieldContainer radio">
+						<div class="option">
+							<input type="radio" id="use_another_dir" name="action" value="use_another_dir" autocomplete="off" class="radio"/>
+							<label class="choice" for="use_another_dir">Bind the page to another directory</label>
+						</div>
+					</div>
+				</li>
+
+				<li class="field dropdown full checkbox_align hidden" id="another_directory_field">
+					<label for="another_directory_name">
+						Directory
+						<span class="comment">Please select the page directory.</span>
+					</label>
+					<div class="fieldContainer">
+						<select id="another_directory_name" name="another_directory_name">
+							<option value="">&lt;select&gt;</option>
+							<? 
+								$directories = Cms_Page::list_orphan_directories();
+								foreach ($directories as $directory):
+							?>
+								<option value="<?= h($directory) ?>"><?= h($directory) ?></option>
+							<? endforeach ?>
+						</select>
+					</div>
+					<div class="clear"></div>
+				</li>
+			</ul>
+		
+			<?= backend_ajax_button('Apply', 'edit_onFixPageDirectory', array(), "preCheckFunction: check_file_fix_submit.pass('Do you really want to delete this page?')") ?>
+			<?= backend_button('Cancel', url('cms/pages')) ?>
+
+			<div class="clear"></div>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,93 @@
+html { font-size: 100%; /* IE hack */ }
+
+html, body.mceContentBody, .mceContentBody form, .mceContentBody fieldset, .mceContentBody h1, .mceContentBody h2, .mceContentBody h3, 
+.mceContentBody h4, .mceContentBody h5, .mceContentBody h6, .mceContentBody p, .mceContentBody pre, 
+.mceContentBody blockquote, .mceContentBody address, .mceContentBody dd, .mceContentBody dtm, .mceContentBody div
+{
+	margin:0;
+	padding:0;
+}
+
+body.mceContentBody
+{
+	font: 62.5% Arial,Verdana,Helvetica,sans-serif;
+	background: #FFFFFF;
+	padding: 5px;
+}
+
+.mceContentBody h1
+{
+	font-size: 25px;
+	font-weight: normal!important;
+	padding-bottom: 10px;
+	color: black!important;
+}
+
+.mceContentBody h2
+{
+	font-size: 20px;
+	padding: 6px 0 10px 0!important;
+	color: black!important;
+}
+
+.mceContentBody h3
+{
+	font-size: 17px;
+	padding: 6px 0 5px 0!important;
+	color: black!important;
+}
+
+.mceContentBody h4
+{
+	font-size:  15px;
+	font-weight: bold;
+	padding: 6px 0 5px 0!important;
+	color: black!important;
+}
+
+.mceContentBody p,
+.mceContentBody blockquote
+{
+	font-size: 12px;
+	line-height: 150%;
+	padding-bottom: 7px!important;
+	color: #333!important;
+}
+
+.mceContentBody blockquote
+{
+	padding-left: 20px;
+}
+
+.mceContentBody ul, .mceContentBody ol
+{
+	font-size: 12px;
+	line-height: 150%;
+	padding-bottom: 5px!important;
+	padding-left: 20px!important;
+	margin: auto!important;
+}
+
+.mceContentBody ul li, .mceContentBody ol li
+{
+	padding: auto!important;
+	margin: auto!important;
+}
+
+.mceContentBody ol li
+{
+	list-style-type: decimal!important;
+}
+
+.mceContentBody ul li
+{
+	list-style-type: disc!important;
+}
+
+.mceContentBody a.DictionaryReference
+{
+	color: #cc6600!important;
+	text-decoration: none!important;
+	border-bottom: 1px dotted #cc6600;
+	font-weight: bold;
+}

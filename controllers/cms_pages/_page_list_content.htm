@@ -1,0 +1,23 @@
+<?= flash() ?>
+
+<div class="minorPadding">
+	<? $this->renderPartial('pages_statistics') ?>
+</div>
+
+<? if ($this->isHintVisible('page_list_order')): ?>
+	<?= Phpr_Form::openTag(array('id'=>'hint_form')) ?>
+		<div class="hint minor_margin">
+			<p>You can sort the page list by clicking column titles in the table below. The order of pages on this page will not be reflected on the front-end website.</p>
+			<p class="last">If you need to manage the ordering of pages on the front-end navigation menus, please click the <strong>Manage page order</strong> button. After setting the page order on the Manage page order page, you can sort the table below by the Sort Order column. Then the table will be sorted in accordance with the front-end page order.</p>
+			<a title="Hide this hint" href="#" class="close" onclick="return hide_tip('page_list_order', this)">Close</a>
+		</div>
+	</form>
+<? endif ?>
+
+<? 
+	$list_options = array();
+
+	if ($can_edit_pages || $can_manage_static_pages || $can_manage_page_order)
+		$list_options['list_control_panel']='pages_control_panel';
+?>
+<?= $this->listRender($list_options) ?>

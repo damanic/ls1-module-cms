@@ -1,0 +1,9 @@
+<? Phpr_View::beginBlock("head") ?>
+	<script type="text/javascript" src="modules/cms/resources/javascript/partials.js"></script>
+<? Phpr_View::endBlock() ?>
+
+<? Phpr_View::beginBlock("view") ?>
+	<div id="partials_page_content">
+		<? $this->renderPartial('partials_page_content') ?>
+	</div>
+<? Phpr_View::endBlock() ?>

@@ -1,0 +1,19 @@
+<?
+	Backend_Html::zebra('resources');
+	$this->renderPartial('directory_list', array(
+		'root'=>$this->getResourcesRootDir(), 
+		'root_name'=>$this->getResourcesRootDir(),
+		'root_code'=>Cms_Resources::resources_root_folder_code,
+		'root_description'=>'Website resources directory'
+	));
+		
+	if (Cms_Theme::is_theming_enabled() && $theme = Cms_Theme::get_edit_theme())
+		$this->renderPartial('directory_list', array(
+			'root'=>$this->getThemeResourcesRootDir(), 
+			'root_name'=>$this->getThemeResourcesRootDir(),
+			'root_code'=>Cms_Resources::theme_resources_root_folder_code,
+			'root_description'=>'Theme resources directory',
+			'root_class'=>'theme',
+			'display_theme_selector'=>true
+		));
+?>

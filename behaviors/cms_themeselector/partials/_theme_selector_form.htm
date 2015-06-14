@@ -1,0 +1,50 @@
+<div id="select_theme_popup">
+	<h2>Select theme</h2>
+	<div class="content">
+		<div class="form400">
+			<?= Phpr_Form::openTag() ?>
+				<? if (!isset($fatalError)): ?>
+					<div class="form">
+						<div class="formFlash"></div>
+						
+						<div class="form_page">
+							<ul class="formElements">
+								<li class="field dropdown full">
+									<label for="">
+										Theme
+										<span class="comment">Please select theme to edit.</span>
+									</label>
+
+									<div class="fieldContainer ">
+										<select name="theme_id" autocomplete="off">
+											<? foreach ($themes as $theme): ?>
+												<option <?= Phpr_Form::optionState($current_theme_id, $theme->id) ?> value="<?= $theme->id ?>"><?= h($theme->name).' ('.$theme->code.')' ?></option>
+											<? endforeach ?>
+										</select>
+									</div>
+								</li>
+							</ul>
+						</div>
+						
+						<div class="clear"></div>
+					</div>
+					
+					<?= backend_ajax_button('Apply', 
+						$this->getEventHandler('on_cms_theme_selector_apply'), array('class'=>'default'), "
+							loadIndicator: {injectInElement: true}, 
+							onSuccess: function(){
+								$('select_theme_popup').popupData.theme_apply_callback();
+								cancelPopup();
+							}"
+					) ?>
+					<?= backend_button('Cancel', array('onclick'=>'return cancelPopup()')) ?>
+				<? else: ?>
+					<div class="formFlash"><?= flash() ?></div>
+					<?= backend_button('Cancel', array('onclick'=>'return cancelPopup()')) ?>
+				<? endif ?>
+			
+				<div class="clear"></div>
+			</form>
+		</div>
+	</div>
+</div>

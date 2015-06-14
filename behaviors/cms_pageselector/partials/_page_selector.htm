@@ -1,0 +1,13 @@
+<? 
+	$container_id = $this->cms_page_selector_hidden_container_id($model, $this->formGetEditSessionKey(), $field->dbName);
+	$label_id = $this->cms_page_selector_hidden_label_id($model, $this->formGetEditSessionKey(), $field->dbName);
+	$db_name = $this->formGetFieldDbName($field->dbName, $model);
+	$field_name = get_class($model).'[cms_page_selector]['.$db_name.']';
+?>
+
+<div class="custom-input-tool" onclick="new PopupForm('<?= $this->getEventHandler('on_cms_page_selector_show_popup') ?>', {ajaxFields: {'field': '<?= $field->dbName ?>', 'model_class': '<?= h(get_class($model)) ?>', reference_name: '<?= $db_name ?>', 'container': '<?= $container_id ?>', 'label': '<?= $label_id ?>', 'field_name': '<?= $field_name ?>', 'reference_data': $(this).findParent('li').getElement('input.cms_page_selector_data').value}}); return false
+">
+	<div><span id="<?= $label_id ?>"><?= $this->cms_page_selector_render_partial('selected_page_list', array('object'=>$model, 'reference'=>$field->dbName)) ?></span></div>
+	<a href="#" title="Select page" onclick="return false"><span>Select page</span></a>
+</div>
+<div id="<?= $container_id ?>"><?= $this->cms_page_selector_render_data($model, $db_name) ?></div>

@@ -1,0 +1,8 @@
+<? $action_info = Cms_ActionManager::getActionInfo($action) ?>
+
+<? if (!strlen($action_info->examples)): ?>
+	<h3>Action <?= h($action) ?></h3>
+	<p class="description">This action has no examples.</p>
+<? else: ?>
+	<div class="offset_bottom"><?= $action_info->examples ?></div>
+<? endif ?>

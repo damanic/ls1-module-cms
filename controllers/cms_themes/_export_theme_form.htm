@@ -1,0 +1,27 @@
+<div>
+	<h2>Export theme</h2>
+	<div class="content">
+		<div class="form400">
+			<?= Phpr_Form::openTag() ?>
+
+				<? if (!isset($fatalError)): ?>
+					<? $this->formRender($model) ?>
+
+					<?= backend_ajax_button('Export', 'index_onexport_theme', array('class'=>'default'), "
+						loadIndicator: {injectInElement: true},
+						onSuccess: cancelPopup
+						") ?>
+					<?= backend_button('Cancel', array('onclick'=>"
+						cancelPopup();
+						return false;
+					")) ?>
+				<? else: ?>
+					<div class="formFlash"><?= flash() ?></div>
+					<?= backend_button('Cancel', array('onclick'=>'return cancelPopup();"')) ?>
+				<? endif ?>
+			
+				<div class="clear"></div>
+			</form>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,268 @@
+#1 Created the pages table
+#2 Created the templates table
+#3 Created the partials table
+#4 Added page types - dynamic and static
+#5 Added the actions feature
+#6 Added the page ajax handlers tab
+#7 Added page visits statistics
+#8 Added index on page_id field in the visit statistics table
+#9 Added indexes on url and visit_date field in the visit statistics table
+#10 Create visits statistics settings table
+#11 Added Google Analytics integration feature
+#12 Added pages security feature
+#13 Added pages security redirect column
+#14 Added index on action_reference page field
+#15 Added protocol column to the pages table
+#16 Added google analytics tracking feature
+#17 Added some indexes to the page table
+#18 Added content blocks feature
+#19 Added one-click static page creation feature
+#20 Added page labels
+#21 Added pre-action code
+#22 Added "Override existing files" checkbox to the resource file uploader
+#23 Pre-action code is now transferred during the CMS export/import operation
+#24 Added loading indicator in the file upload form
+#25 Better resource manager appearance
+#26 Minor change in the upload form
+#27 Updated tabs in the page editor sidebar
+#28 Minor fixes in the base classes
+#29 The CMS import feature now allows ZIP files
+#30 Minor changes in the Cms_Controller class
+#31 Subdirectories support
+#32 PHP 5.3.x compatibility
+#33 Added page hierarchy and navigation features
+#34 Added the navigation label page property
+#35 Added the navigation page sorting feature
+#36 Minor improvement on the Manage Page Order page
+#37 Added the breadcrumb generation features
+#38 Cms_Controller class extensions
+#39 Fixed the tree view on the Manage Page Order page
+#40 Added the default error message page
+#41 Minor improvements in the detailed error message page
+#42 Added visitor preferences class 
+#43 Inline documentation updated
+#44 CMS objects import and export now correctly saves the page hierarchy and navigation parameters
+#45 Fixed a minor bug in the exception handling system
+#46 Fixed a bug in the CMS objects importing
+#47 Minor improvement in the front-end AJAX classes
+#48 Fixed bug with deleting the ZLIB output handler
+#49 Integrated the CodeMirror syntax highlighter
+#50 Minor improvement in the CMS export feature
+#51 Front-end performance optimization
+#52 Added the database index for the pages navigation_sort_order column
+#53 Fixed the session information loss during the HTTP/HTTPS switching
+#54 Fixed a bug where the Cms_Page::navigation_parents() method was returning NULL value for pages without navigation parents.
+#55 Improved session handling 
+#56 Updated the CMS Export and Import icons
+#57 Minor fix in the Google Analytics integration code
+#58 Improved the URL parameter handling when LemonStand automatically redirects between HTTP and HTTPS protocols
+#59 The Import CMS objects feature now exports page labels correctly
+#60 Fixed file sorting on the CMS/Resources page
+#61 Improved resources file and folder permission management
+#62 Added Dashboard configuration options
+#63 Automatic navigation menu generation now takes into account page security settings
+#64 Minor fix in the dashboard report
+#65 Fixed a bug in the CMS Export feature
+#66 Added the cms:onBeforeDisplay event. It is triggered before LemonStand renders a page
+#67 Added the batch deletion feature for partials and templates
+#68 Minor update in the  cms:onBeforeDisplay event behavior.
+#69 Fixed a bug on the CMS/Pages/Reorder Pages page
+#70 Minor improvement in the Google Analytics eCommerce integration
+#71 Minor fix in the Google Analytics integration
+#72 Minor fix in the site_url() helper functions
+#73 Added the Create and Save button to the Create Page, Create Template and Create Partial pages.
+#74 Added the page visibility filter feature, based on customer groups
+#75 Minor fix in the page visibility filter
+#76 Minor updates in the CMS Export/Import feature. 
+#77 Minor improvements in the user interface
+#78 Minor updates in the user Administration Area interface
+#79 CMS API update: added the get_customer_group() method to the Cms_Controller class
+#80 Updated Google Analytics tracker code
+#81 Added the "Disable Google Analytics tracking" checkbox to the Create/Edit Page form
+#82 Updated front-end JavaScript framework - added the RatingSelector class
+#83 Minor improvements in the CMS API
+#84 LemonStand now returns the HTTP/1.0 404 Not Found header for the 404 page
+#85 Minor improvements in the default HTML editor stylesheet
+#86 CMS API update: added the content_by_url() method to the Cms_Page class
+#87 Added the Head field to the Create/Edit Page form
+#88 Added the page blocks feature
+#89 Added the Maintenance Session feature
+#90 Updated Google Analytics eCommerce Tracking code
+#91 Security system update - added the login auto-return feature
+#92 LemonStand front-end JavaScript libraries are compressed and combined into a single library
+#93 Technology update
+#94 Minor update in the documentation
+#95 API update: the $this->render_block() method now can be called from partials
+#96 API update: added the process_ls_tags() global function
+#97 Added the "Published" checkbox to the Create/Edit Page form
+#98 Maintenance mode now can be enabled from the CMS/Pages page
+#99 Minor fix in the CMS export/import feature
+#100 Minor update in the API
+#101 HTTP/HTTPS redirection now sends HTTP 301 header
+#102 Added the flash_partial feature support
+#103 Minor update in the API
+#104 API update: the $this->render_block() call now works in AJAX handers correctly
+#105 Added CAPTCHA support for Google Analytics configuration form
+#106 Minor update in the API
+#107 Minor update in the API
+#108 Minor improvements in the API
+#109 Minor improvements in the API
+#110 Minor improvements in the API
+#111 Minor improvements in the API
+#112 Minor fix in the API
+#113 Updated front-end MooTools library
+#114 Minor update in the CMS Export feature
+#115 Added resource combining features
+#116 Minor fix in the CMS Export feature
+#117 Minor fix in template deletion code
+#118 Added jQuery front-end library
+#119 Minor update in the jQuery front-end library
+#120 Improved HTTP->HTTPS redirection security
+#121 Minor improvements in the jQuery front-end library
+#122 Minor improvements in the API
+#123 API update - added new events: cms:onExtendTemplatesToolbar, cms:onExtendPartialsToolbar, cms:onExtendPagesToolbar
+#124 Minor updates in the API
+#125 Minor update in the MooTools-specific JavaScript library
+#126 Page and partial caching features added
+#127 File-based templates support added
+#128 Minor improvements in the file-based templates support
+#129 Minor update in the built-in statistics
+#130 Minor fix in the CMS Import feature
+#131 Improvements in the file-based templates - page directory names now depend on page URLs
+#132 Minor updates and fixes in the front-end jQuery interface
+#133 Minor update in the JavaScript and CSS resource combiner
+#134 Minor update in the base classes
+#135 Minor update in the jQuery front-end interface
+#136 Minor update in the front-end JavaScript libraries
+#137 Updated CSS content file for the built-in WYSIWYG editor
+#138 Minor improvement in the navigation API
+#139 Added new system event: cms:onGetCustomerGroupId
+#140 Minor fix in the file-based templates feature
+#141 Minor update in the base classes
+#142 The ls_session_id and ls_frontend_ticket URL parameter names are now configurable
+#143 Added new API event - cms:onAfterDisplay
+#144 Fixed a bug on the CMS/Partials page
+#145 Technology update
+#146 Minor update in the jQuery front-end interface
+#147|1.1.47 Update in the version numbering
+#148|1.1.48 Minor update in the base classes
+#149|1.1.49 Minor update in the base classes
+#150|1.1.50 Updated some icons on the System/Settings page
+#151|1.1.51 Minor update in the file-based templates support
+#152|1.1.52 Improved "partial not found" error handling
+#153|1.1.53 Added new API event: cms:onBeforeRoute
+#154|1.1.54 Increased length of the page, partial and template content columns in the database
+#155|1.1.55 Minor fix in the page content block editing
+#156|1.1.56 Added new API events: cms:onPreparePageListData, cms:onPrepareTemplateListData, cms:onPreparePartialListData
+#157|1.1.57 Added new API events: cms:onBeforeRenderPartial, cms:onAfterRenderPartial
+#158|1.1.58 Added new API event: cms:onBeforeDataExport
+#159|1.1.59 Added new API event: cms:onListPageEditorSidebarTabs
+#160|1.1.60 Updated jQuery, fixed a minor validation issue in the js_combine() and css_combine()
+#161|1.1.61 Minor fix
+#162|1.1.62 Fixed some typos in the code
+#163|1.1.63 Minor update in the API
+#164|1.1.64 Technology update
+#165|1.1.65 Minor update in the API
+#166|1.1.66 Minor update in the API
+#167|1.1.67 Added new API events
+#168|1.1.68 Minor update in the jQuery front-end interface
+#169|1.1.69 Minor improvement in the back-end user interface
+#170|1.1.70 Added the Manage Resources user permission
+#171|1.1.71 Added Enable option for the built-in CMS statistics
+#172|1.1.72 The file-based template engine now supports {APP} path specifier which allows to configure template paths relative to LemonStand root directory
+#173|1.1.73 Edit Page, Edit Template and Edit Partial pages now display the object name being edited in the browser title. Minor fix in the automatic navigation generating code.
+#174|1.1.74 Page URLs now allow dots.
+#175|1.1.75 Minor fix in CMS pages.
+#176|1.1.76 Added "Refresh pages from files" button to the page list toolbar.
+#177|1.1.77 Minor fix in the navigation API
+#178|1.1.78 Improvements in the template engine.
+#179|1.1.79 Improvements in the built-int documentation.
+#180|1.1.80 Fixed a form validation error.
+#181|1.1.81 Added page load time tracking feature to Google Analytics integration.
+#182|1.1.82 Added cross-domain tracking support to Google Analytics integration.
+#183|1.1.83 Technology update
+#1.1.84 Minor fix in the CMS controller class.
+#1.1.85 Minor updates in the base classes.
+#1.1.86 Minor updates in the base classes.
+#1.1.87 Minor updates in the base classes.
+#1.2.0 Added search by partial, page and template content.
+#1.2.1 Technology update.
+#1.2.2 Minor improvement in the API: cms:onDisplayPageForm event is now triggered on the CMS/Edit Content page.
+#1.2.3 Minor improvement in the API.
+#1.3.0|@f77465c|@13cd7dc|@8dbef49|@d5439a7|@9c74db4|@50871ed|@bbe0181 Added Theming feature.
+#1.3.1 Minor fix in Theming
+#1.3.2 Minor update in the CMS editors.
+#1.4.0 Themes and templates directories can now be combined.
+#1.4.1 Usability improvements
+#1.5.0 Added collapsable form areas to CMS forms
+#1.5.1 Minor usability improvements.
+#1.5.2 Minor improvement in the API.
+#1.5.3 Minor fix on the Edit Page page
+#1.5.4 Minor update in the internal CSS files.
+#1.5.5 Added new API event: cms:onConfigurePagesPage
+#1.5.6 Added new API event: cms:onGetActiveTheme. Fixed a minor bug in the "Create pages from files" feature.
+#1.5.7 The dash symbol is now allowed in the page content block Code field
+#1.5.8 Minor fix in the CMS controller.
+#1.5.9 Minor fix in the CMS controller.
+#1.6.0 Added 'None' protocol to Allowed Protocols dropdown on the Create/Edit Page form
+#1.7.0|@852e4c5 Added Twig support. Multiple improvements in CMS editors UI.
+#1.7.1 Fixed a minor bug in the Duplicate Theme function.
+#1.7.2 Fixed a bug with uploading files to global content blocks.
+#1.7.3 Minor improvements in the base classes.
+#1.7.4 Fixed a minor bug in the Export Theme feature.
+#1.7.5 Minor fix in the CMS controller.
+#1.7.6 Minor fix theme importing feature.
+#1.8.0 Improved Pages page user interface.
+#1.8.1 Fixed a bug with renaming themes.
+#1.8.2 Minor update in the internal classes.
+#1.8.3 Minor fix in the page and partial caching.
+#1.9.1 Added new permission: Manage static pages. Minor fix on the CMS/Resources page.
+#1.9.2 Added new API event: cms:onBeforeTrackingCodeInclude
+#1.9.3 Minor update in the API.
+#1.9.4 Minor update in the internal classes.
+#1.9.5 Minor fix in CMS exception handling.
+#1.9.6 Added new options to the Export Theme feature.
+#1.9.7 Minor fix on the Create/Edit Theme page.
+#1.9.8 Added inline code documentation
+#1.9.9 Minor update in the internal classes.
+#1.9.10 Technology update
+#1.9.11 Minor update in jQuery front-end library
+#1.10.0|@4238802 Added support for plain text content blocks
+#1.10.1 Fixed the Create Static Page feature for Twig-based themes
+#1.10.2 Minor fix on the Edit Theme page
+#1.10.3 Minor update in the API
+#1.10.4 Minor update in the API
+#1.10.5 Added new API event: cms:onCmsPageImport
+#1.10.6 Minor improvement in the page list
+#1.10.7 Added new API events: cms:onExtendPagesContextMenu, cms:onExtendPageContentToolbar
+#1.10.8 Added new API event: cms:onSetDefaultTheme
+#1.10.9 Minor fix in the resource manager
+#1.10.10 Minor fix in the page list
+#1.10.11 Minor improvement in jQuery front-end library
+#1.10.12 Minor update in the documentation
+#1.10.13 Minor fix in the CMS Theme export/import feature
+#1.10.14|@555b800 Added the Site Speed sample rate parameter to the Google Analytics settings.
+#1.10.15|@0f17b82 Added DoubleClick remarketing support
+#1.10.16 Fixed the page sorting feature on the Manage Page Order page in FireFox
+#1.10.17 Minor improvement in the front-end security implementation
+#1.10.18 Minor improvement in the themes API
+#1.10.19 Imrpovements in the front-end jQuery-based JavaScript framework.
+#1.10.20 The front-end jQuery library is updated to version v1.8.3
+#1.10.21 Minor improvement in the Google Analytics tracking code
+#1.10.22 Minor improvement in the front-end JavaScript framework. Older versions of jQuery can now be used on the front-end.
+#1.10.23 Minor fix in the module version information file
+#1.10.24 Minor improvements in the back-end page list
+#1.10.25 Added new CMS permission: Manage page order
+#1.10.26 Minor fix in the front-end JavaScript framework
+#1.10.27 Fixed a typo in the code documentation
+#1.10.28 Added new API event: cms:onAfterResourceFileUpload
+#1.10.29 Minor improvement in the front-end JavaScript framework
+#1.10.30 Minor update in the API
+#1.10.31 Minor fix in the Edit Theme selection for new users, minor fix in the Google Analytics integration.
+#1.10.32 Minor fix in the API
+#1.10.33 Minor improvement in the back-end usability
+#1.10.34 Minor improvement in the Create Pages From Directories feature
+#1.10.35 Fixed a minor bug in the front-end JavaScript API
+#1.10.36 Minor improvement in the front-end JavaScript API
+#1.10.37 Better error reporting in the CMS Import Theme feature
+#1.20.00 Added $result_onBeforeDisplay to CMS_Controller

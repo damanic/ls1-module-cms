@@ -1,0 +1,18 @@
+<div class="toolbar">
+	<?= backend_ctr_button('Add theme', 'new_document', url('/cms/themes/create')) ?>
+	<?= backend_ctr_button('Duplicate theme', 'duplicate', array('href'=>'#', 'onclick'=>"duplicate_theme(); return false;")) ?>
+	<div class="separator">&nbsp;</div>
+	<?= backend_ctr_button('Delete selected', 'delete_document', array('href'=>'#', 'onclick'=>"return delete_selected()")) ?>
+	<div class="separator">&nbsp;</div>
+	<?= backend_ctr_button('Set default theme', 'set_default_theme', array('href'=>'#', 'onclick'=>"new PopupForm('index_onshow_set_default_theme_form', {ajaxFields: $('listformCms_Themes_index_list')}); return false;")) ?>
+	<?= backend_ctr_button('Enable selected', 'enable', array('href'=>'#', 'onclick'=>"return enable_selected()")) ?>
+	<?= backend_ctr_button('Disable selected', 'disable', array('href'=>'#', 'onclick'=>"return disable_selected()")) ?>
+	
+	<div class="separator">&nbsp;</div>
+	<?= backend_ctr_button('Export theme', 'document_export', array('href'=>'#', 'onclick'=>"new PopupForm('index_onshow_export_theme_form', {ajaxFields: $('listformCms_Themes_index_list')}); return false;")) ?>
+	<?= backend_ctr_button('Import theme', 'document_import', array('href'=>'#', 'onclick'=>"new PopupForm('index_onshow_import_theme_form', {ajaxFields: $('listformCms_Themes_index_list')}); return false;")) ?>
+	
+	<? Backend::$events->fireEvent('cms:onExtendThemesToolbar', $this) ?>
+
+	<div class="clear"></div>
+</div>

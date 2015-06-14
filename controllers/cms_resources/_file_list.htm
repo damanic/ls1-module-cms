@@ -1,0 +1,45 @@
+<? $curFolder = $this->getAppRelativeFolder($this->getCurrentFolder()); ?>
+
+<div class="formFlash"><? $this->renderPartial('flash') ?></div>
+
+<?
+	$viewType = $this->getViewType($curFolder);
+	if ($viewType == 'table')
+		$this->renderPartial('file_table');
+	elseif ($viewType == 'icons')
+		$this->renderPartial('file_icons');
+
+	if ($viewType == 'thumbnails'):
+?>
+	<div class="thumbnails">
+		<? $this->renderPartial('file_icons', array('thumb_size'=>120, 'trim_len'=>40, 'wordwrap_len'=>20)); ?>
+	</div>
+<? endif ?>
+
+<input type="hidden" id="current_folder" value="<?= h($curFolder) ?>"/>
+
+<script type="text/javascript">
+	function onFileRenamed()
+	{
+		var file_path = $('rename_file_path').get('value');
+		
+		cancelPopup();
+		$('FormElement').sendPhpr('index_onFileRenamed', {loadIndicator: {show:false}, extraFields: {
+			file: file_path
+		}});
+	}
+	
+	function onFileMoved()
+	{
+		var move_files_str = $('move_files').get('value');
+		var move_files_dir = $('dest_dir').get('value');
+		var move_src_dir = $('move_files_src_dir').get('value');
+		
+		cancelPopup();
+		$('FormElement').sendPhpr('index_onFilesMoved', {loadIndicator: {show:false}, extraFields: {
+			files: move_files_str,
+			dir: move_files_dir,
+			src_dir: move_src_dir
+		}});
+	}
+</script>
