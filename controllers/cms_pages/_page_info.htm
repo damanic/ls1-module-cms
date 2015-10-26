@@ -1,0 +1,22 @@
+<div class="scoreboardReport">
+	<ul>
+		<li <? if (!$form_model->updated_at): ?>class="last"<? endif ?>>
+			<h3>Page</h3>
+			<p><?= h($form_model->title) ?></p>
+			<p class="description">
+				<? $address = Phpr::$request->getRootUrl().root_url(Core_String::normalizeUri($form_model->url)) ?>
+				url: <a href="<?= $address ?>" target="_blank"><?= $address ?></a>
+			</p>
+		</li>
+		<? if ($form_model->updated_at): ?>
+		<li class="last">
+			<h3>Last update by</h3>
+			<p><?= h($form_model->updated_user_name) ?></p>
+			<p class="description">
+				at: <?= $form_model->displayField('updated_at') ?>
+			</p>
+		</li>
+		<? endif ?>
+	</ul>
+	<div class="clear"></div>
+</div>

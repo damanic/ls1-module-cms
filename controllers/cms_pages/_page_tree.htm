@@ -1,0 +1,45 @@
+<?
+	$nested = isset($nested) ? $nested : false;
+	$tree_level = isset($tree_level) ? $tree_level : 0;
+?>
+
+<? if (!$list_data->count): ?>
+	<p class="noData">No pages found.</p>
+<? else: ?>
+	<ul class="simple_tree <?= $nested ? null : 'page_tree_view' ?>" id="<?= $listId = uniqid('page_list') ?>">
+		<? foreach ($list_data as $row): 
+			$url = $this->listFormatRecordUrl($row);
+			$subpages = $row->list_children('navigation_sort_order');
+		?>
+			<li>
+				<div class="tree_branch  <?= zebra('page_tree') ?>" style="padding-left: <?= $tree_level*20 ?>px">
+					<a href="#" onclick="return false" class="row_icon handle<?= $row->parent_id ?>">
+						<img src="modules/cms/resources/images/icon_page.png"/>
+					</a>
+					<span class="title">
+						<span class="row_title"><?= h($row->label ? $row->label : $row->title) ?></span>
+						<span class="row_notes">
+							<a href="<?= root_url($row->url, true) ?>"><?= root_url($row->url, true) ?></a>
+						</span>
+					</span>
+					<div class="clear"></div>
+				</div>
+
+				<input class="page_id<?= $row->parent_id ?>" value="<?=$row->id?>" type="hidden"/>
+				<input class="page_order<?= $row->parent_id ?>" value="<?= $row->navigation_sort_order ?>" type="hidden"/>
+
+				<? if ($subpages->count): ?>
+					<? $this->renderPartial('page_tree', array('list_data'=>$subpages, 'nested'=>true, 'tree_level'=>$tree_level+1)) ?>
+				<? endif ?>
+			</li>
+		<? endforeach ?>
+	</ul>
+	<? if ($list_data->count): ?>
+		<script type="text/javascript">
+			window.addEvent('domready', function() {
+				$('<?= $listId ?>').makeListSortable('reorder_pages_onSetOrders', 'page_order<?= $row->parent_id ?>', 'page_id<?= $row->parent_id ?>', 'handle<?= $row->parent_id ?>');
+				$('<?= $listId ?>').addEvent('dragComplete', tree_after_drag);
+			});
+		</script>
+	<? endif ?>
+<? endif ?>
