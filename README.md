@@ -1,7 +1,7 @@
 #Install
 - Download latest release zip: https://github.com/damanic/ls1-module-cms/releases
 - Backup folder modules/cms. 
-- Overwrite contects of modules/cms with latest release
+- Overwrite contents of modules/cms with latest release
 - logging in to your lemonstand admin area triggers update scripts, so do a login after you update.
 
 ##Google Analytics Integration Fix
