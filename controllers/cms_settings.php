@@ -6,6 +6,14 @@
 		public $form_model_class = '';
 		protected $access_for_groups = array(Users_Groups::admin);
 
+		public function __construct() {
+			parent::__construct();
+
+			//fix for file uploader
+			if(post('Cms_Stats_Settings', false))
+				$this->form_model_class = 'Cms_Stats_Settings';
+		}
+
 		public function stats()
 		{
 			$this->app_page_title = 'Statistics';
@@ -17,6 +25,11 @@
 			$this->viewData['settings'] = $settings;
 		}
 
+		public function stats_onUpdateFileList(){
+			$this->form_model_class  = 'Cms_Stats_Settings';
+			$this->onUpdateFileList();
+		}
+
 		protected function stats_onSave()
 		{
 			try
@@ -25,22 +38,9 @@
 				$settings->init_columns_info();
 				$settings->define_form_fields();
 
-				try
-				{
-					$settings->save(post('Cms_Stats_Settings'));
-				} 
-				catch (Cms_GaCaptchaException $ex)
-				{
-					$this->viewData['captcha_url'] = $ex->captcha_url;
-					$this->viewData['captcha_token'] = $ex->captcha_token;
-					
-					$this->renderMultiple(array(
-						'ga_captcha_fields'=>'@_ga_captcha_fields'
-					));
-					
-					return;
-				}
-				
+
+				$this->edit_onSave($settings->id);
+
 				Cms_Analytics::deleteStalePageviews($settings->keep_pageviews);
 				Cms_Analytics::clearGaCache();
 

@@ -1,3 +1,3 @@
-<li class="<?= $form_model->ga_enabled ? null : 'hidden' ?>" id="ga_hint">
-	<div class="hint"><p class="last">Read about configuring Google Analytics in <a href="http://lemonstand.com/docs/configuring_the_google_analytics_integration/" target="_blank">LemonStand documentation</a></p></div>
+<li class="<?= $form_model->ga_service_enabled ? 'ga_service_enabled' : 'hidden ga_service_enabled';?>" id="ga_hint">
+	<div class="hint"><p class="last">To authenticate with GA you need to upload a service key file in JSON format. This can be generated from your google developers console.  <a href="https://developers.google.com/api-client-library/php/auth/service-accounts">click here to read more</a></p></div>
 </li>

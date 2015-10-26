@@ -9,7 +9,7 @@
 			if (self::isGoogleAnalyticsEnabled())
 				return self::ga_evalVisiorsStatistics($start, $end);
 
-			return self::int_evalVisiorsStatistics($start, $end);
+			return self::int_evalVisitorsStatistics($start, $end);
 		}
 		
 		public static function getVisitorsChartData($start, $end)
@@ -69,7 +69,7 @@
 
 		public static function isGoogleAnalyticsEnabled()
 		{
-			return Cms_Stats_Settings::get()->ga_enabled;
+			return Cms_Stats_Settings::get()->ga_service_enabled;
 		}
 		
 		/*
@@ -100,7 +100,8 @@
 		}
 		
 		private static function initGaCache($start, $end)
-		{ 
+		{
+
 			$prevCache = $cache = Db_ModuleParameters::get('cms', 'analytics');
 
 			try
@@ -115,11 +116,7 @@
 				$cache['start'] = $startFormatted;
 				$cache['end'] = $endFormatted;
 
-				$obj = new Cms_GoogleAnalytics();
-				$statSettings = Cms_Stats_Settings::get();
-				$obj->username = $statSettings->ga_username;
-				$obj->password = base64_decode($statSettings->ga_password);
-				$obj->siteId = $statSettings->ga_siteid;
+				$ga = new Cms_GoogleAnalytics();
 
 				/*
 				 * Fetch visitors chart data
@@ -128,15 +125,14 @@
 				Backend_Dashboard::evalPrevPeriod($start, $end, $prevStart, $prevEnd);
 
 				$chart_start = $end->substractInterval(new Phpr_DateTimeInterval(30));
-				$xPath = self::getGaDoc($obj, array('ga:date'), array('ga:visits'), $chart_start, $end);
+				$data = $ga->downloadReport(array('ga:date'), array('ga:visits'), $chart_start, $end);
 
-				$points = $xPath->query('//ns:feed/ns:entry');
 
 				$chart_data = array();
-				foreach ($points as $point)
+				foreach ($data->rows as $row_id => $row_info)
 				{
-					$label = self::parseXmlDate($xPath->query("dxp:dimension[@name='ga:date']", $point)->item(0)->getAttribute('value'));
-					$value = $xPath->query("dxp:metric[@name='ga:visits']", $point)->item(0)->getAttribute('value');
+					$label = self::parseDate($row_info[0]);
+					$value =  $row_info[1];
 
 					$chart_data[] = (object)array('record_value'=>self::strToInt($value), 'series_id'=>$label);
 				}
@@ -146,24 +142,24 @@
 				/*
 				 * Fetch statistics data
 				 */
-			
-				$xPath_current = self::getGaDoc($obj, array('ga:date'), array('ga:visits','ga:bounces','ga:newVisits','ga:timeOnSite','ga:pageviews','ga:visitors'), $start, $end);
-				$xPath_prev = self::getGaDoc($obj, array('ga:date'), array('ga:visits','ga:bounces','ga:newVisits','ga:timeOnSite','ga:pageviews','ga:visitors'), $prevStart, $prevEnd);
-				
-				$pageviews_current = self::evalXmlNodeValue($xPath_current, "//ns:feed/dxp:aggregates/dxp:metric[@name='ga:pageviews']", true);
-				$pageviews_prev = self::evalXmlNodeValue($xPath_prev, "//ns:feed/dxp:aggregates/dxp:metric[@name='ga:pageviews']", true);
-				
-				$visits_current = self::evalXmlNodeValue($xPath_current, "//ns:feed/dxp:aggregates/dxp:metric[@name='ga:visits']", true);
-				$visits_prev = self::evalXmlNodeValue($xPath_prev, "//ns:feed/dxp:aggregates/dxp:metric[@name='ga:visits']", true);
-				
-				$time_current = self::evalXmlNodeValue($xPath_current, "//ns:feed/dxp:aggregates/dxp:metric[@name='ga:timeOnSite']", true);
-				$time_prev = self::evalXmlNodeValue($xPath_prev, "//ns:feed/dxp:aggregates/dxp:metric[@name='ga:timeOnSite']", true);
 
-				$bounces_current = self::evalXmlNodeValue($xPath_current, "//ns:feed/dxp:aggregates/dxp:metric[@name='ga:bounces']", true);
-				$bounces_prev = self::evalXmlNodeValue($xPath_prev, "//ns:feed/dxp:aggregates/dxp:metric[@name='ga:bounces']", true);
+				$current_data = $ga->downloadReport(array('ga:date'), array('ga:visits','ga:bounces','ga:newVisits','ga:timeOnSite','ga:pageviews','ga:visitors'), $start, $end);
+				$previous_data = $ga->downloadReport(array('ga:date'), array('ga:visits','ga:bounces','ga:newVisits','ga:timeOnSite','ga:pageviews','ga:visitors'), $prevStart, $prevEnd);
+
+				$pageviews_current = $current_data->totalsForAllResults['ga:pageviews'];
+				$pageviews_prev = $previous_data->totalsForAllResults['ga:pageviews'];
 				
-				$new_visits_current = self::evalXmlNodeValue($xPath_current, "//ns:feed/dxp:aggregates/dxp:metric[@name='ga:newVisits']", true);
-				$new_visits_prev = self::evalXmlNodeValue($xPath_prev, "//ns:feed/dxp:aggregates/dxp:metric[@name='ga:newVisits']", true);
+				$visits_current = $current_data->totalsForAllResults['ga:visits'];
+				$visits_prev = $previous_data->totalsForAllResults['ga:visits'];
+				
+				$time_current =  $current_data->totalsForAllResults['ga:timeOnSite'];
+				$time_prev = $previous_data->totalsForAllResults['ga:timeOnSite'];
+
+				$bounces_current = $current_data->totalsForAllResults['ga:bounces'];
+				$bounces_prev = $previous_data->totalsForAllResults['ga:bounces'];
+				
+				$new_visits_current = $current_data->totalsForAllResults['ga:newVisits'];
+				$new_visits_prev = $previous_data->totalsForAllResults['ga:newVisits'];
 			
 				$cache['visitors_statistics_data'] = (object)array(
 				 	'unique_visitors_current'=>$visits_current,
@@ -189,15 +185,14 @@
 				 * Fetch content data
 				 */
 
-				$xPath = self::getGaDoc($obj, array('ga:pagePath'), array('ga:pageviews'), $start, $end, '-ga:pageViews');
+				$data = $ga->downloadReport( array('ga:pagePath'), array('ga:pageviews'), $start, $end, '-ga:pageViews');
 			
-				$pages = $xPath->query('//ns:feed/ns:entry[position()<6]');
-				
+
 				$top_pages = array();
-				foreach ($pages as $page)
+				foreach ($data->rows as $row_id => $row_data)
 				{
-					$url = $xPath->query("dxp:dimension[@name='ga:pagePath']", $page)->item(0)->getAttribute('value');
-					$visits = $xPath->query("dxp:metric[@name='ga:pageviews']", $page)->item(0)->getAttribute('value');
+					$url = $row_data[0];
+					$visits =  $row_data[1];
 
 					$top_pages[] = (object)array(
 						'cnt'=>$visits,
@@ -243,25 +238,9 @@
 			return $cache;
 		}
 		
-		private static function parseXmlDate($date)
+		private static function parseDate($date)
 		{
 			return substr($date, 0, 4).'-'.substr($date, 4, 2).'-'.substr($date, 6, 2);
-		}
-		
-		private static function evalXmlNodeValue($xPath, $path, $numeric = false, $context = null)
-		{
-			$item_value = $context == null ? $xPath->query($path) : $xPath->query($path, $context);
-
-			if ($item_value->length)
-			{
-				$result = $item_value->item(0)->getAttribute('value');
-				if (!$numeric)
-					return $result;
-					
-				return str_replace('%', '', str_replace(',', '', str_replace(' ', '', $result)));
-			}
-
-			return null;
 		}
 		
 		private static function strToInt($value)
@@ -269,22 +248,11 @@
 			return str_replace(',', '', str_replace(' ', '', $value));
 		}
 
-		private static function getGaDoc($gaObj, $dimensions, $metrics, $start, $end, $sort = null)
-		{
-			$data = $gaObj->downloadReport($dimensions, $metrics, $start, $end, $sort);
-
-			$doc = new DOMDocument('1.0');
-			$doc->loadXML($data);
-			$xPath = new DOMXPath($doc);
-			$xPath->registerNamespace('ns', "http://www.w3.org/2005/Atom");
-			return $xPath;
-		}
-
 		/*
 		 * Integrated analytics
 		 */
 
-		private static function int_evalVisiorsStatistics($start, $end)
+		private static function int_evalVisitorsStatistics($start, $end)
 		{
 			$startFormatted = $start->toSqlDate();
 			$endFormatted = $end->toSqlDate();

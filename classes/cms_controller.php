@@ -176,7 +176,7 @@
 				 */
 				
 				$gaSettings = Cms_Stats_Settings::getLazy();
-				if ($gaSettings->ga_enable_tracking && !$page->disable_ga)
+				if ($gaSettings->ga_enabled && !$page->disable_ga)
 					$this->add_tracking_code($gaSettings->get_ga_tracking_code());
 					
 				$result_onBeforeDisplay = Backend::$events->fireEvent('cms:onBeforeDisplay', $page, $params);
@@ -245,6 +245,7 @@
 		 */
 		public function handle_ajax_request($page, $handlerName, $updateElements, &$params)
 		{
+
 			$this->apply_security($page, $params);
 
 			try
@@ -1081,14 +1082,18 @@
 		 */
 		public function action()
 		{
-			if (strlen($this->page->pre_action) && self::is_php_allowed())
+			if (strlen($this->page->pre_action) && self::is_php_allowed()){
 				eval($this->page->pre_action);
-			
-			if ($this->page->action_reference != Cms_Page::action_custom)
-				Cms_ActionManager::execAction($this->page->action_reference, $this);
+			}
 
-			if (strlen($this->page->action_code) && self::is_php_allowed())
+			if ($this->page->action_reference != Cms_Page::action_custom) {
+				Cms_ActionManager::execAction( $this->page->action_reference, $this );
+			}
+
+			if (strlen($this->page->action_code) && self::is_php_allowed()){
 				eval($this->page->action_code);
+			}
+
 		}
 		
 		/**

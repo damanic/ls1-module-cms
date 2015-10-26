@@ -20,25 +20,34 @@
 			<?= backend_button('Cancel', url('system/settings')) ?>
 			
 			<input type="hidden" id="prev_pageviews" value="<?= $settings->keep_pageviews ?>"/>
+<div id="booty">
+	uo
+</div>
 
 			<div class="clear"></div>
 		</form>
 		
 		<script type="text/javascript">
 			window.addEvent('domready', function(){
+				$('Cms_Stats_Settings_ga_service_enabled').addEvent('toggle', function(state){
+					if (state) {
+						$('form_field_ga_json_keyCms_Stats_Settings').addClass('separatedField');
+						jQuery('.ga_service_enabled').removeClass('hidden').show();
+					}
+					else {
+						$('form_field_ga_json_keyCms_Stats_Settings').removeClass('separatedField');
+						jQuery('.ga_service_enabled').hide();
+					}
+
+				})
+
 				$('Cms_Stats_Settings_ga_enabled').addEvent('toggle', function(state){
-					if (state)
-						$('form_field_ga_enabledCms_Stats_Settings').addClass('separatedField');
-					else
-						$('form_field_ga_enabledCms_Stats_Settings').removeClass('separatedField');
-					
-					var fields = ['form_field_ga_siteidCms_Stats_Settings', 'form_field_ga_usernameCms_Stats_Settings', 'form_field_ga_passwordCms_Stats_Settings', 'form_field_ga_property_idCms_Stats_Settings', 'ga_hint', 'form_field_ga_site_speed_sample_rateCms_Stats_Settings', 'form_field_ga_domain_nameCms_Stats_Settings', 'form_field_ga_enable_doubleclick_remarketingCms_Stats_Settings'];
-					fields.each(function(element){
-						if (state) 
-							$(element).show(); 
-						else
-							$(element).hide();
-					})
+					if (state) {
+						jQuery('.ga_enabled').removeClass('hidden').show();
+					}
+					else {
+						jQuery('.ga_enabled').hide();
+					}
 				})
 				
 				$('Cms_Stats_Settings_enable_builtin_statistics').addEvent('toggle', function(state){

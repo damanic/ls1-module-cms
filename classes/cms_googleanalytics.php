@@ -6,89 +6,82 @@
 		const report_content = 'ContentReport';
 		const report_dashboard = 'DashboardReport';
 
-		public $username;
-		public $password;
+		public $keyfile_path;
 		public $siteId;
-		
-		public $captcha_value;
-		public $captcha_token;
 
-		protected $auth_url = 'https://www.google.com/accounts/ClientLogin';
-		protected $feed_url = 'https://www.google.com/analytics/feeds/data';
+		protected $auth_url = 'https://www.googleapis.com/auth/analytics.readonly';
 
 		protected $isLoggedIn = false;
-		protected $auth_ticket = null;
+		protected $client;
+		protected $private_key_id;
+		protected $private_key;
+		protected $client_email;
+		protected $client_id;
+
+
+
+		public function __construct(){
+			require_once PATH_APP.'/modules/cms/thirdpart/google-api/autoload.php';
+			$settings = Cms_Stats_Settings::get();
+			$this->siteId = $settings->ga_siteid;
+
+			$this->key_file_path = is_object( $settings->ga_json_key[0] ) ? $settings->ga_json_key[0]->getFileSavePath( $settings->ga_json_key[0]->disk_name ) : false;
+			if($this->key_file_path){
+				$this->load_keyfile($this->key_file_path);
+			}
+
+		}
+
+		public function load_keyfile($file_path){
+			if(!file_exists($file_path)){
+				throw new Phpr_ApplicationException('Could not load Google Analytics key file');
+			}
+
+			$key_data = file_get_contents($file_path);
+			$key_data_array = json_decode($key_data, true);
+			if(!is_array($key_data_array) || !isset($key_data_array['client_email']) || $key_data_array['type'] !== 'service_account'){
+				throw new Phpr_ApplicationException( 'The Google authentication key file is not valid' );
+			}
+
+			$this->private_key_id = $key_data_array['private_key_id'];
+			$this->private_key = $key_data_array['private_key'];
+			$this->client_email = $key_data_array['client_email'];
+			$this->client_id = $key_data_array['client_id'];
+
+		}
 
 		public function login()
 		{
 			if ($this->isLoggedIn)
 				return;
 
-			$data = array(
-			    'accountType' => 'GOOGLE',
-			    'Email' => $this->username,
-			    'Passwd' => $this->password,
-			    'service' => 'analytics',
-			    'source' => ''
-			);
-			
-			if (strlen($this->captcha_token))
-			{
-				$data['logintoken'] = $this->captcha_token;
-				$data['logincaptcha'] = trim($this->captcha_value);
-			}
+			try {
 
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, $this->auth_url);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($ch, CURLOPT_POST, true);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-			$output = curl_exec($ch);
-			$info = curl_getinfo($ch);
-			curl_close($ch);
+				$credentials = new Google_Auth_AssertionCredentials(
+					$this->client_email,
+					array($this->auth_url),
+					$this->private_key
+				);
 
-			$this->auth_ticket = null;
-			
-			if($info['http_code'] == 200) 
-			{
-				$matches = array();
-				preg_match('/Auth=(.*)/', $output, $matches);
-				if(isset($matches[1]))
-					$this->auth_ticket = $matches[1];
-			} else 
-			{
-				$matches = array();
-				if (preg_match('/CaptchaToken=(.*)/', $output, $matches))
-				{
-					if (isset($matches[1]))
-					{
-						$captcha_token = $matches[1];
-						preg_match('/CaptchaUrl=(.*)/', $output, $matches);
-						$catpcha_url = $matches[1];
-						
-						throw new Cms_GaCaptchaException('Error logging into Google Analytics account. Please update Google Analytics configuration.', 'http://www.google.com/accounts/'.$catpcha_url, $captcha_token);
-					}
+				$client = new Google_Client();
+				$client->setApplicationName("Lemonstand_V1");
+				$client->setAssertionCredentials($credentials);
+				if ($client->getAuth()->isAccessTokenExpired()) {
+					$client->getAuth()->refreshTokenWithAssertion();
 				}
-				
-				throw new Phpr_SystemException('Error connecting to Google Analytics. Google error: '.$output);
-			}
-				
-			if (!$this->auth_ticket)
-				throw new Phpr_SystemException('Error connecting to Google Analytics. Authentication ticket not found in Google API response.');
 
-			$this->isLoggedIn = true;
+				// Get this from the Google Console, API Access page
+				$client->setClientId( $this->client_id );
+				$client->setAccessType( 'offline_access' );
+				$this->client = $client;
+
+				$this->isLoggedIn = true;
+
+			} catch (Exception $e){
+				throw new Phpr_SystemException('Error connecting to Google Analytics. Google error: '.$e->getMessage());
+			}
 		}
-		
-		protected function url_encode_array(&$fields)
-		{
-			$result = array();
-			foreach ($fields as $name=>$value)
-				$result[] = $name.'='.urlencode($value);
-				
-			return implode('&', $result);
-		}
-		
+
 		public function downloadReport($dimensions, $metrics, $start, $end, $sort = null)
 		{
 			$this->login();
@@ -101,30 +94,16 @@
 				'end-date'=>$end->format('%Y-%m-%d')
 			);
 
+			$params = array('dimensions' => implode(',', $dimensions));
 			if ($sort)
-				$get_fields['sort'] = $sort;
-			
-			$url = $this->feed_url.'?'.$this->url_encode_array($get_fields);
-			$headers = array('Authorization: GoogleLogin auth='.$this->auth_ticket);
-			
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, $url);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($ch, CURLOPT_HTTPHEADER,$headers);
-			
-			$response = curl_exec($ch);
-			$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+				$params['sort'] = $sort;
 
-			curl_close($ch);
 
-			if ($code != 200)
-				throw new Phpr_ApplicationException('Error downloading Google Analytics report. Invalid response from Google Analytics API. Response code: '.$code);
+			$service = new Google_Service_Analytics($this->client);
 
-			if (!preg_match(',\</feed\>\s*$,', $response))
-				throw new Phpr_ApplicationException('Error downloading Google Analytics report. Response text is not an XML document.');
-				
-			return $response;
+			$data = $service->data_ga->get('ga:'.$this->siteId, $start->format('%Y-%m-%d'), $end->format('%Y-%m-%d'), implode(',', $metrics), $params );
+
+			return $data;
 		}
 	}
 
