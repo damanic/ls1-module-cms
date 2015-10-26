@@ -1,5 +1,8 @@
 #Install
-Overwrite modules/cms. Warning: adding this module as it is will prevent lemonstand from updating through the lemonstand V1 update center. This may not be an issue as support from lemonstand has ended.
+- Download latest release zip: https://github.com/damanic/ls1-module-cms/releases
+- Backup folder modules/cms. 
+- Overwrite contects of modules/cms with latest release
+- logging in to your lemonstand admin area triggers update scripts, so do a login after you update.
 
 ##Google Analytics Integration Fix
 Adds support for fetching google analytics report data with OAuth2.0
