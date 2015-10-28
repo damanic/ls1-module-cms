@@ -1,13 +1,11 @@
-#Install
-- Download latest release zip: https://github.com/damanic/ls1-module-cms/releases
-- Backup your `{lemonstand-install-dir}/modules/cms` folder in case you wish to revert.
-- Overwrite contents of `{lemonstand-install-dir}/modules/cms` with latest release
-- logging into your lemonstand admin area triggers update scripts, so do a login after you update.
+#CMS Module
+###Lemonstand Version 1
+This updated module can be installed using the updatecenter module: https://github.com/damanic/ls1-module-updatecenter
 
-##Google Analytics Integration Fix
+####Google Analytics Integration Fix
 Adds support for fetching google analytics report data with OAuth2.0
 
-##Updates
+####Updates
 
 - 1.20.0 Start community additions: Added $result_onBeforeDisplay to CMS_Controller
 - 1.20.1 Allows for GA tracking code to be used, separating it from the broken ClientLogin integration.
