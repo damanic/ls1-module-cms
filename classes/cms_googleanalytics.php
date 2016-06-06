@@ -64,6 +64,7 @@
 				);
 
 				$client = new Google_Client();
+				$client->setClassConfig('Google_Cache_File', array('directory' => PATH_APP.'/temp/Google_Client/'));
 				$client->setApplicationName("Lemonstand_V1");
 				$client->setAssertionCredentials($credentials);
 				if ($client->getAuth()->isAccessTokenExpired()) {
