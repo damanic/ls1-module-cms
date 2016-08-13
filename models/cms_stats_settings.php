@@ -149,7 +149,7 @@ class Cms_Stats_Settings extends Backend_SettingsRecord
 							  'affiliation': '{$company_name}',   
 							  'revenue': '{$order->total}',               
 							  'shipping': '{$order->shipping_quote}',                 
-							  'tax': {$order_tax}'                  
+							  'tax': '{$order_tax}'                  
 							});\n";
 
 		foreach ($order->items as $item)
