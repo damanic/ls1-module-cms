@@ -26,6 +26,11 @@
 		{
 			self::$page_blocks = array();
 		}
+
+		public function before_save($deferred_session_key = null)
+		{
+			Backend::$events->fireEvent('cms:onBeforeSaveContentBlock', $this);
+		}
 		
 		public function after_save()
 		{

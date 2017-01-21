@@ -271,3 +271,4 @@
 #1.21.1 Minor improvement to GA authentication: cache file uses lemonstand temp directory.
 #1.21.2 Upgraded GA tracking to Universal Analytics, analytics.js library
 #1.21.3 Fixed syntax error on GA ecommerce:addTransaction
+#1.21.4 Added event cms:onBeforeSaveContentBlock
