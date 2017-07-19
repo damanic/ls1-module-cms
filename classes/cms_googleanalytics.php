@@ -65,6 +65,12 @@
 
 				$client = new Google_Client();
 				$client->setClassConfig('Google_Cache_File', array('directory' => PATH_APP.'/temp/Google_Client/'));
+
+				if (isset($CONFIG['TRACE_LOG']['GOOGLE'])){
+					$client->setLoggerClass('Google_Logger_File');
+					$client->setClassConfig('Google_Logger_File', array('file' => $CONFIG['TRACE_LOG']['GOOGLE']));
+				}
+
 				$client->setApplicationName("Lemonstand_V1");
 				$client->setAssertionCredentials($credentials);
 				if ($client->getAuth()->isAccessTokenExpired()) {

@@ -143,8 +143,8 @@
 				 * Fetch statistics data
 				 */
 
-				$current_data = $ga->downloadReport(array('ga:date'), array('ga:visits','ga:bounces','ga:newVisits','ga:timeOnSite','ga:pageviews','ga:visitors'), $start, $end);
-				$previous_data = $ga->downloadReport(array('ga:date'), array('ga:visits','ga:bounces','ga:newVisits','ga:timeOnSite','ga:pageviews','ga:visitors'), $prevStart, $prevEnd);
+				$current_data = $ga->downloadReport(array('ga:date'), array('ga:visits','ga:bounces','ga:newVisits','ga:avgSessionDuration','ga:pageviews','ga:visitors'), $start, $end);
+				$previous_data = $ga->downloadReport(array('ga:date'), array('ga:visits','ga:bounces','ga:newVisits','ga:avgSessionDuration','ga:pageviews','ga:visitors'), $prevStart, $prevEnd);
 
 				$pageviews_current = $current_data->totalsForAllResults['ga:pageviews'];
 				$pageviews_prev = $previous_data->totalsForAllResults['ga:pageviews'];
@@ -152,8 +152,8 @@
 				$visits_current = $current_data->totalsForAllResults['ga:visits'];
 				$visits_prev = $previous_data->totalsForAllResults['ga:visits'];
 				
-				$time_current =  $current_data->totalsForAllResults['ga:timeOnSite'];
-				$time_prev = $previous_data->totalsForAllResults['ga:timeOnSite'];
+				$time_current =  $current_data->totalsForAllResults['ga:avgSessionDuration'];
+				$time_prev = $previous_data->totalsForAllResults['ga:avgSessionDuration'];
 
 				$bounces_current = $current_data->totalsForAllResults['ga:bounces'];
 				$bounces_prev = $previous_data->totalsForAllResults['ga:bounces'];
@@ -171,8 +171,8 @@
 					'pageviews_current'=>$pageviews_current,
 					'pageviews_previous'=>$pageviews_prev,
 
-					'time_on_site_current'=>($visits_current > 0 ? round($time_current/$visits_current) : 0),
-					'time_on_site_previous'=>($visits_prev > 0 ? round($time_prev/$visits_prev) : 0),
+					'time_on_site_current'=>round($time_current),
+					'time_on_site_previous'=>round($time_prev),
 
 					'bounce_rate_current'=>($visits_current > 0 ? $bounces_current/$visits_current : 0),
 					'bounce_rate_previous'=>($visits_prev > 0 ? $bounces_prev/$visits_prev : 0),
