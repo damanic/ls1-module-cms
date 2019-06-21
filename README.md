@@ -13,3 +13,7 @@ Adds support for fetching google analytics report data with OAuth2.0
 - 1.21.1 Minor improvement to GA authentication: cache file uses lemonstand temp directory.
 - 1.21.2 Upgraded GA tracking to Universal Analytics, analytics.js library
 - 1.21.3 Fixed syntax error on GA ecommerce:addTransaction
+- 1.21.4 Added event cms:onBeforeSaveContentBlock
+- 1.21.5 GA stats fix. Replaced deprecated ga:timeOnSite metric with ga:avgSessionDuration
+- 1.21.6 Support IPV6
+- 1.21.7 Improves login redirects
