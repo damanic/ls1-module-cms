@@ -276,3 +276,4 @@
 #1.21.6 Support IPV6
 #1.21.7 Improves login redirects
 #1.21.8 Improves JS CSS resource combiner
+#1.21.9 Fix url encoding issues with resource combiner
