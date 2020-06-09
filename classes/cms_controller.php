@@ -1221,7 +1221,7 @@ class Cms_Controller
 					$file = '/'.Cms_SettingsManager::get()->resources_dir_path.$file;
 			}
 
-			$files_array[] = 'file%5B%5D='.urlencode(trim($file));
+			$files_array[] = urlencode(trim($file));
 		}
 
 		$options_str = array();
@@ -1235,13 +1235,15 @@ class Cms_Controller
 		if ($options_str)
 			$options_str = '&amp;'.$options_str;
 
+		$files_string = Cms_ResourceCombine::encode_param($files);
+
 		if ($type == 'javascript') {
-			$url = root_url('ls_javascript_combine/?'.implode('&amp;', $files_array).$options_str);
+			$url = root_url('cms_js_combine/?f='.$files_string.$options_str);
 
 			return $show_tag ? '<script type="text/javascript" src="'.$url.'"></script>'."\n" : $url;
 		}
 		else {
-			$url = root_url('ls_css_combine/?'.implode('&amp;', $files_array).$options_str);
+			$url = root_url('cms_css_combine/?f='.$files_string.$options_str);
 
 			return $show_tag ? '<link rel="stylesheet" type="text/css" href="'.$url.'" />' : $url;
 		}
