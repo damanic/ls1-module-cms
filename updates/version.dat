@@ -275,3 +275,4 @@
 #1.21.5 GA stats fix. Replaced deprecated ga:timeOnSite metric with ga:avgSessionDuration
 #1.21.6 Support IPV6
 #1.21.7 Improves login redirects
+#1.21.8 Improves JS CSS resource combiner
