@@ -11,6 +11,7 @@
  * The bulk of this script could also be wrapped into helper class Cms_ResourceCombine
  */
 
+Backend::$events = new Backend_Events();
 
 $aliases = array(
 	'mootools'=>'/modules/cms/resources/javascript/mootools_src.js',
@@ -34,12 +35,12 @@ $allowed_paths = array(
 	PATH_APP.'/modules/cms/resources/css/'
 );
 
-$files = isset($_GET['f']) ? $_GET['f'] : false;
+$files = Phpr::$request->get_value_array('f',false); //already url decoded
 if(!$files){
 	die();
 }
 
-$files = Cms_ResourceCombine::decode_param($files);
+$files = Cms_ResourceCombine::decode_param($files, $url_encoded = false);
 if(!$files){
 	die();
 }
@@ -57,7 +58,8 @@ $symbolic_links = isset( $CONFIG['RESOURCE_SYMLINKS'] ) ? $CONFIG['RESOURCE_SYML
 $enable_remote_resources = isset( $CONFIG['ENABLE_REMOTE_RESOURCES'] ) ? $CONFIG['ENABLE_REMOTE_RESOURCES'] : false; //not allowed by default
 
 $resource_type = null;
-if ( preg_match( '#cms_(.+)_combine#simU', htmlentities( $_GET['q'], ENT_COMPAT, 'UTF-8' ), $match ) ) { // htmlentities just incase something malicious (just being safe)
+$url_query = Phpr::$request->get_value_array('q', false);
+if ( preg_match( '#cms_(.+)_combine#simU', htmlentities( $url_query, ENT_COMPAT, 'UTF-8' ), $match ) ) { // htmlentities just incase something malicious (just being safe)
 	$resource_type = $match[1];
 }
 if(!$resource_type || !in_array( $resource_type, $allowed_types ) ){
@@ -65,9 +67,9 @@ if(!$resource_type || !in_array( $resource_type, $allowed_types ) ){
 }
 
 
-$recache    = isset( $_GET['reset_cache'] );
-$skip_cache = isset( $_GET['skip_cache'] );
-$src_mode   = isset( $_GET['src_mode'] );
+$recache    = Phpr::$request->get_value_array('reset_cache', false);
+$skip_cache = Phpr::$request->get_value_array('skip_cache', false);
+$src_mode   = Phpr::$request->get_value_array('src_mode', false);
 
 $assets = array();
 $combined_files = array();

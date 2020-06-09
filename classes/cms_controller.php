@@ -1235,7 +1235,7 @@ class Cms_Controller
 		if ($options_str)
 			$options_str = '&amp;'.$options_str;
 
-		$files_string = Cms_ResourceCombine::encode_param($files);
+		$files_string = Cms_ResourceCombine::encode_param($files_array);
 
 		if ($type == 'javascript') {
 			$url = root_url('cms_js_combine/?f='.$files_string.$options_str);

@@ -56,12 +56,16 @@ class Cms_ResourceCombine {
 			return null;
 		}
 		$obj = new self();
-		return $obj->url_param_embed($data);
+		$string = $obj->url_param_embed($data);
+		return urlencode($string);
 	}
 
-	public static function decode_param($string){
+	public static function decode_param($string, $url_encoded = true){
 		if(!$string){
 			return null;
+		}
+		if($url_encoded) {
+			$string = urldecode( $string );
 		}
 		$obj = new self();
 		return $obj->url_param_decode($string);

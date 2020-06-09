@@ -7,7 +7,6 @@ if (Phpr::$request->get_value_array('q', false)) {
 	);
 	foreach($combine_access_points as $ap){
 		if(strpos(Phpr::$request->get_value_array('q'), $ap.'/') !== false){
-			$_GET = Phpr::$request->get_fields;
 			include( PATH_APP."/modules/cms/system/combine_resources.php" );
 			die();
 		}
