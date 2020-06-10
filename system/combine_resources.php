@@ -47,7 +47,7 @@ if(!$files){
 
 use MatthiasMullie\Minify;
 $minify = false;
-if(class_exists('MatthiasMullie\Minify')){
+if(class_exists('Minify')){
 	$minify = true;
 }
 

@@ -70,8 +70,6 @@
 		
 		public function create_formBeforeRender($model)
 		{
-			if (!$this->currentUser->isAdministrator())
-				Phpr::$response->redirect(url('/cms/content'));
 
 			if (Phpr::$router->param('param1') == 'text')
 				$model->block_type = 'text';

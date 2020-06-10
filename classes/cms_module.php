@@ -144,7 +144,7 @@
 			$host_obj->add_field($this, 'manage_page_content', 'Manage pages content', 'right')->renderAs(frm_checkbox)->comment('Edit static content of pages previously created by other users.', 'above');
 			$host_obj->add_field($this, 'manage_resources', 'Manage resources', 'left')->renderAs(frm_checkbox)->comment('Create, modify or delete website resource files - CSS, JavaScript, Images, etc.', 'above');
 			$host_obj->add_field($this, 'manage_maintenance_mode', 'Manage maintenance mode', 'right')->renderAs(frm_checkbox)->comment('Enable or disable the Maintenance Mode from the CMS/Pages page.', 'above');
-			$host_obj->add_field($this, 'manage_content', 'Manage global content blocks', 'left')->renderAs(frm_checkbox)->comment('Edit existing global static content blocks.', 'above');
+			$host_obj->add_field($this, 'manage_content', 'Manage global content blocks', 'left')->renderAs(frm_checkbox)->comment('Create and Edit existing global static content blocks.', 'above');
 			$host_obj->add_field($this, 'manage_static_pages', 'Manage static pages', 'right')->renderAs(frm_checkbox)->comment('Create new and edit existing static pages.', 'above');
 			$host_obj->add_field($this, 'manage_page_order', 'Manage page order')->renderAs(frm_checkbox)->comment('Manage the order of pages in the navigation menus.', 'above');
 			

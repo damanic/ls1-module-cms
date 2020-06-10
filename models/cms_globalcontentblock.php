@@ -24,10 +24,10 @@
 		public function define_form_fields($context = null)
 		{
 			$user = Phpr::$security->getUser();
-			if ($user && $user->is_administrator())
-			{
-				$this->add_form_field('name', 'left')->collapsable();
-				$this->add_form_field('code', 'right')->collapsable();
+			$existing_entry = $this->id ? true : false;
+			if (!$existing_entry || ($user && $user->is_administrator())) {
+				$f_name = $this->add_form_field('name', 'left')->collapsable();
+				$f_code = $this->add_form_field('code', 'right')->collapsable();
 			}
 			
 			$type = $this->block_type;

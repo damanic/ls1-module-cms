@@ -1,7 +1,7 @@
 <div class="toolbar">
-	<? if ($this->currentUser->isAdministrator()): ?>
 		<?= backend_ctr_button('Add HTML block', 'new_document', url('/cms/content/create/html')) ?>
 		<?= backend_ctr_button('Add text block', 'new_text_document', url('/cms/content/create/text')) ?>
+	<? if ($this->currentUser->isAdministrator()): ?>
 		<div class="separator">&nbsp;</div>
 		<?= backend_ctr_button('Delete selected', 'delete_document', array('href'=>'#', 'onclick'=>"return delete_selected()")) ?>
 	<? endif ?>
