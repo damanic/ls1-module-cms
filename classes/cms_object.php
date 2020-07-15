@@ -198,20 +198,24 @@
 			if (!file_exists($dir) || !is_dir($dir))
 				return;
 
-			$files = scandir($dir);
-			foreach ($files as $file_name)
-			{
-				$info = pathinfo($file_name);
-				if (!preg_match('/^[a-z_0-9-;]*$/i', $info['filename']))
-					continue;
+			$files = @scandir($dir);
+			if($files) {
+				foreach ( $files as $file_name ) {
+					$info = pathinfo( $file_name );
+					if ( !preg_match( '/^[a-z_0-9-;]*$/i', $info['filename'] ) ) {
+						continue;
+					}
 
-				if (!isset($info['extension']) || mb_strtolower($info['extension']) != $old)
-					continue;
-				
-				$old_path = $dir.'/'.$file_name;
-				$new_path = $dir.'/'.$info['filename'].'.'.$new;
-				if (!@rename($old_path, $new_path))
-					throw new Phpr_SystemException('Error renaming file: '.$old_path. ' to '.$new_path);
+					if ( !isset( $info['extension'] ) || mb_strtolower( $info['extension'] ) != $old ) {
+						continue;
+					}
+
+					$old_path = $dir . '/' . $file_name;
+					$new_path = $dir . '/' . $info['filename'] . '.' . $new;
+					if ( !@rename( $old_path, $new_path ) ) {
+						throw new Phpr_SystemException( 'Error renaming file: ' . $old_path . ' to ' . $new_path );
+					}
+				}
 			}
 		}
 		

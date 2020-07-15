@@ -805,11 +805,13 @@
 				} else
 				{
 					$path = $this->get_file_path($this->directory_name);
-					$files = scandir($path);
-					foreach ($files as $file)
-					{
-						if (substr($file, 0, 6) == 'block_' && substr($file, -4) == '.'.self::get_content_extension())
-							$this->block_cache[substr($file, 6, -4)] = $this->get_page_file_content($file, false);
+					$files = @scandir($path);
+					if($files) {
+						foreach ( $files as $file ) {
+							if ( substr( $file, 0, 6 ) == 'block_' && substr( $file, - 4 ) == '.' . self::get_content_extension() ) {
+								$this->block_cache[substr( $file, 6, - 4 )] = $this->get_page_file_content( $file, false );
+							}
+						}
 					}
 				}
 			}
@@ -1145,16 +1147,18 @@
 			 * Delete renamed block files
 			 */
 			
-			$files = scandir($dest_path);
-			foreach ($files as $file)
-			{
-				if (substr($file, -4) != '.'.self::get_content_extension())
-					continue;
-				
-				if (substr($file, 0, 6) == 'block_')
-				{
-					if (!in_array($file, $used_page_block_files))
-						@unlink($dest_path.'/'.$file);
+			$files = @scandir($dest_path);
+			if($files) {
+				foreach ( $files as $file ) {
+					if ( substr( $file, - 4 ) != '.' . self::get_content_extension() ) {
+						continue;
+					}
+
+					if ( substr( $file, 0, 6 ) == 'block_' ) {
+						if ( !in_array( $file, $used_page_block_files ) ) {
+							@unlink( $dest_path . '/' . $file );
+						}
+					}
 				}
 			}
 		}
@@ -1164,16 +1168,19 @@
 			if (!file_exists($path))
 				return false;
 			
-			$files = scandir($path);
-			foreach ($files as $file)
-			{
-				if (substr($file, -4) != '.'.self::get_content_extension())
-					continue;
+			$files = @scandir($path);
+			if($files) {
+				foreach ( $files as $file ) {
+					if ( substr( $file, - 4 ) != '.' . self::get_content_extension() ) {
+						continue;
+					}
 
-				if (substr($file, 0, 5) != 'page_')
-					continue;
+					if ( substr( $file, 0, 5 ) != 'page_' ) {
+						continue;
+					}
 
-				return $file;
+					return $file;
+				}
 			}
 			
 			return 'page_'.self::db_name_to_file_name($this->url).'.'.self::get_content_extension();
@@ -1542,22 +1549,21 @@
 			 * Set content blocks
 			 */
 			
-			$files = scandir($path);
-			foreach ($files as $file)
-			{
-				if (substr($file, 0, 8) == 'content_' && substr($file, -4) == '.'.self::get_content_extension())
-				{                          
-					$code = substr($file, 8, -4);
-					$block = Cms_ContentBlock::get_by_page_and_code($this->id, $code);
-					if (!$block)
-					{
-						$block = Cms_ContentBlock::create();
-						$block->page_id = $this->id;
-						$block->code = $code;
+			$files = @scandir($path);
+			if($files) {
+				foreach ( $files as $file ) {
+					if ( substr( $file, 0, 8 ) == 'content_' && substr( $file, - 4 ) == '.' . self::get_content_extension() ) {
+						$code  = substr( $file, 8, - 4 );
+						$block = Cms_ContentBlock::get_by_page_and_code( $this->id, $code );
+						if ( !$block ) {
+							$block          = Cms_ContentBlock::create();
+							$block->page_id = $this->id;
+							$block->code    = $code;
+						}
+
+						$block->content = $this->get_page_file_content( $file, false );
+						$block->save();
 					}
-					
-					$block->content = $this->get_page_file_content($file, false);
-					$block->save();
 				}
 			}
 		}
@@ -1575,11 +1581,13 @@
 			if (!file_exists($path) || !is_dir($path))
 				return;
 			
-			$files = scandir($path);
-			foreach ($files as $file)
-			{
-				if (!is_dir($path.'/'.$file))
-					@unlink($path.'/'.$file);
+			$files = @scandir($path);
+			if($files) {
+				foreach ( $files as $file ) {
+					if ( !is_dir( $path . '/' . $file ) ) {
+						@unlink( $path . '/' . $file );
+					}
+				}
 			}
 				
 			@rmdir($path);
@@ -1599,19 +1607,23 @@
 			$path = $settings_manager->get_templates_dir_path($current_theme).'/pages';
 			$result = array();
 
-			$files = scandir($path);
+			$files = @scandir($path);
 
-			$theme_filter = $current_theme ? ' where theme_id='.$current_theme->id : null;
-			$existing_files = Db_DbHelper::scalarArray('select directory_name from pages'.$theme_filter);
 
-			foreach ($files as $file)
-			{
-				$file_path = $path.'/'.$file;
-				if (!is_dir($file_path) || substr($file, 0, 1) == '.' || !preg_match('/^[a-z_0-9-]*$/', $file))
-					continue;
+			if($files) {
+				$theme_filter = $current_theme ? ' where theme_id='.$current_theme->id : null;
+				$existing_files = Db_DbHelper::scalarArray('select directory_name from pages'.$theme_filter);
 
-				if (!in_array($file, $existing_files))
-					$result[] = $file;
+				foreach ( $files as $file ) {
+					$file_path = $path . '/' . $file;
+					if ( !is_dir( $file_path ) || substr( $file, 0, 1 ) == '.' || !preg_match( '/^[a-z_0-9-]*$/', $file ) ) {
+						continue;
+					}
+
+					if ( !in_array( $file, $existing_files ) ) {
+						$result[] = $file;
+					}
+				}
 			}
 			
 			return $result;
@@ -1649,12 +1661,13 @@
 			$pages = Db_DbHelper::objectArray('select id, directory_name from pages'.$theme_filter);
 			if (file_exists($dir) && is_dir($dir))
 			{
-				$directories = scandir($dir);
+				$directories = @scandir($dir);
+
 				foreach ($pages as $page)
 				{
 					$file_exists = in_array($page->directory_name, $directories);
 					$is_dir = is_dir($dir.'/'.$page->directory_name);
-					
+
 					self::$dir_existence_cache[$page->id] = $file_exists && $is_dir;
 				}
 			}
@@ -1713,36 +1726,43 @@
 			if (!file_exists($pages_dir) || !is_dir($pages_dir))
 				return;
 				
-			$directories = scandir($pages_dir);
-			foreach ($directories as $dir)
-			{
-				$dir = $pages_dir.'/'.$dir;
-				if (!is_dir($dir))
-					continue;
-
-				$files = scandir($dir);
-				foreach ($files as $file_name)
-				{
-					$info = pathinfo($file_name);
-
-					if (!preg_match('/^[a-z_0-9-;]*$/i', $info['filename']))
+			$directories = @scandir($pages_dir);
+			if($directories) {
+				foreach ( $directories as $dir ) {
+					$dir = $pages_dir . '/' . $dir;
+					if ( !is_dir( $dir ) ) {
 						continue;
+					}
 
-					if (!isset($info['extension']) || mb_strtolower($info['extension']) != $old)
-						continue;
+					$files = @scandir( $dir );
+					if($files) {
+						foreach ( $files as $file_name ) {
+							$info = pathinfo( $file_name );
 
-					if (
-						$info['filename'] != 'head_declarations' && 
-						substr($info['filename'], 0, 6) != 'block_' && 
-						substr($info['filename'], 0, 8) != 'content_' && 
-						substr($info['filename'], 0, 5) != 'page_'
-					)
-						continue;
+							if ( !preg_match( '/^[a-z_0-9-;]*$/i', $info['filename'] ) ) {
+								continue;
+							}
 
-					$old_path = $dir.'/'.$file_name;
-					$new_path = $dir.'/'.$info['filename'].'.'.$new;
-					if (!@rename($old_path, $new_path))
-						throw new Phpr_SystemException('Error renaming file: '.$old_path. ' to '.$new_path);
+							if ( !isset( $info['extension'] ) || mb_strtolower( $info['extension'] ) != $old ) {
+								continue;
+							}
+
+							if (
+								$info['filename'] != 'head_declarations' &&
+								substr( $info['filename'], 0, 6 ) != 'block_' &&
+								substr( $info['filename'], 0, 8 ) != 'content_' &&
+								substr( $info['filename'], 0, 5 ) != 'page_'
+							) {
+								continue;
+							}
+
+							$old_path = $dir . '/' . $file_name;
+							$new_path = $dir . '/' . $info['filename'] . '.' . $new;
+							if ( !@rename( $old_path, $new_path ) ) {
+								throw new Phpr_SystemException( 'Error renaming file: ' . $old_path . ' to ' . $new_path );
+							}
+						}
+					}
 				}
 			}
 		}

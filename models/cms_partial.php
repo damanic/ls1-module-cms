@@ -406,23 +406,23 @@
 					$existing_files[] = $partial->file_name.'.'.self::get_content_extension();
 				}
 
-				$files = scandir($dir);
-				foreach ($files as $file)
-				{
-					if (!self::is_valid_file_name($file))
-						continue;
-					
-					$partial_name = self::file_name_to_db_name($file);
-					if (
-						!in_array($file, $existing_files) &&
-						!in_array($partial_name, $existing_names)
-					)
-					{
-						try
-						{
-							self::create_from_file($dir.'/'.$file, $partial_name);
+				$files = @scandir($dir);
+				if($files) {
+					foreach ( $files as $file ) {
+						if ( !self::is_valid_file_name( $file ) ) {
+							continue;
 						}
-						catch (exception $ex) {}
+
+						$partial_name = self::file_name_to_db_name( $file );
+						if (
+							!in_array( $file, $existing_files ) &&
+							!in_array( $partial_name, $existing_names )
+						) {
+							try {
+								self::create_from_file( $dir . '/' . $file, $partial_name );
+							} catch ( exception $ex ) {
+							}
+						}
 					}
 				}
 			}
@@ -458,7 +458,7 @@
 			$dir = $settings_manager->get_templates_dir_path($current_theme).'/partials';
 			if (file_exists($dir) && is_dir($dir))
 			{
-				$files = scandir($dir);
+				$files = @scandir($dir);
 				$partials = Db_DbHelper::objectArray('select id, file_name from partials');
 				foreach ($partials as $partial)
 					self::$file_existence_cache[$partial->id] = in_array($partial->file_name.'.'.self::get_content_extension(), $files);

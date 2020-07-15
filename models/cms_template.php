@@ -291,24 +291,24 @@
 					$existing_files[] = $template->file_name.'.'.self::get_content_extension();
 				}
 
-				$files = scandir($dir);
-				foreach ($files as $file)
-				{
-					if (!self::is_valid_file_name($file))
-						continue;
-
-					$template_name = self::file_name_to_db_name($file);
-
-					if (
-						!in_array($file, $existing_files) &&
-						!in_array($template_name, $existing_names)
-					)
-					{
-						try
-						{
-							self::create_from_file($dir.'/'.$file, $template_name);
+				$files = @scandir($dir);
+				if($files) {
+					foreach ( $files as $file ) {
+						if ( !self::is_valid_file_name( $file ) ) {
+							continue;
 						}
-						catch (exception $ex) {}
+
+						$template_name = self::file_name_to_db_name( $file );
+
+						if (
+							!in_array( $file, $existing_files ) &&
+							!in_array( $template_name, $existing_names )
+						) {
+							try {
+								self::create_from_file( $dir . '/' . $file, $template_name );
+							} catch ( exception $ex ) {
+							}
+						}
 					}
 				}
 			}
