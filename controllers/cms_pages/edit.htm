@@ -24,7 +24,6 @@
 	<? if (!isset($fatalError) && $form_model && !$form_model->directory_is_missing()): ?>
 		<script type="text/javascript" src="modules/backend/resources/javascript/unload_manager.js"></script>
 		<script type="text/javascript">
-			SyntaxHighlighter.config.clipboardSwf = ls_root_url('/phproad/thirdpart/syntaxhighlighter/scripts/clipboard.swf');
 			UnloadManager.unload_message = 'The page has been changed. Unsaved data will be lost.';
 			
 			update_browser_title_active = true;
