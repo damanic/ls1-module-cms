@@ -875,8 +875,6 @@ class Cms_Controller
 
 		Backend::$events->fireEvent('cms:onApplyPageSecurity', $page, $request_params);
 
-		if ($this->customer)
-			Shop_CheckoutData::load_from_customer($this->customer);
 	}
 
 	/**
