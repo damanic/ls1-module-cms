@@ -1,4 +1,4 @@
-<?
+<?php
 
 	/**
 	 * Allows to save visitor preferences into the server session.
@@ -27,6 +27,9 @@
 		public static function set($name, $value)
 		{
 			$params = Phpr::$session->get('cms_visitor_preferences', array());
+			if(!is_array($params)){
+				$params = array();
+			}
 			$params[$name] = serialize($value);
 			
 			Phpr::$session->set('cms_visitor_preferences', $params);
@@ -47,6 +50,9 @@
 		public static function get( $name, $default = null)
 		{
 			$params = Phpr::$session->get('cms_visitor_preferences', array());
+			if(!is_array($params)){
+				return $default;
+			}
 			if (array_key_exists($name, $params))
 			{
 				$value = $params[$name];
@@ -62,5 +68,3 @@
 			return $default;
 		}
 	}
-
-?>
