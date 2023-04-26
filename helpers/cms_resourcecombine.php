@@ -21,7 +21,10 @@ class Cms_ResourceCombine {
 		if ($encoded === false) {
 			return false;
 		}
-		return str_replace('=', '', strtr($encoded, $this->URL_BASE64_FROM, $this->URL_BASE64_TO));
+		if($this->URL_BASE64_TO && $this->URL_BASE64_FROM){
+			$encoded = strtr($encoded, $this->URL_BASE64_FROM, $this->URL_BASE64_TO);
+		}
+		return str_replace('=', '', $encoded);
 	}
 
 	protected function url_base64_decode($data) {
@@ -30,7 +33,10 @@ class Cms_ResourceCombine {
 			return false;
 		}
 		$padded = str_pad($data, 4 - $len % 4, '=', STR_PAD_RIGHT);
-		return base64_decode(strtr($padded, $this->URL_BASE64_TO, $this->URL_BASE64_FROM));
+		if($this->URL_BASE64_TO && $this->URL_BASE64_FROM){
+			$padded = strtr($padded, $this->URL_BASE64_FROM, $this->URL_BASE64_TO);
+		}
+		return base64_decode($padded);
 	}
 
 	protected function url_param_embed($data) {
