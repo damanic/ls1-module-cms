@@ -124,7 +124,7 @@
 					if (!$item)
 						Phpr::$session->flash['error'] = $ex->getMessage();
 					else
-						Phpr::$session->flash['error'] = 'Error deleting partial "'.$partial->name.'": '.$ex->getMessage();
+						Phpr::$session->flash['error'] = 'Error deleting partial "'.$item_id.'": '.$ex->getMessage();
 
 					break;
 				}
